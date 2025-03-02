@@ -1,0 +1,8 @@
+newmtl skybox_back
+d 1
+Ns 10
+Ni 0
+
+Ka 1.0 1.0 1.0
+Kd 0.0 0.0 0.0
+Ks 0.0 0.0 0.0
