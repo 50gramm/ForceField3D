@@ -17,7 +17,7 @@ This application intended to visualize electric field (force lines, equipotentia
 
 - Get source:
 ```shell
-    git clone --recursive https://github.com/50gramm/...git
+    git clone --recursive https://github.com/50gramm/ForceField3D.git
 ```
 
 - Build:
