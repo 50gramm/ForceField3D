@@ -1,0 +1,3 @@
+[submodule "src/3rdparty/freeglut"]
+	path = src/3rdparty/freeglut
+	url = https://github.com/freeglut/freeglut
