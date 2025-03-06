@@ -1,3 +1,5 @@
+![Screenshot01](https://github.com/user-attachments/assets/4012a609-881c-409a-921f-43b290e826d8)
+
 # ForceField3D
 
 **3D visualization of electric field**
@@ -22,7 +24,7 @@ This application intended to visualize electric field (force lines, equipotentia
 
 - Build:
 ```shell
-    cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build/ -j
+    cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
 ```
 
 ## Run:
@@ -32,7 +34,7 @@ This application intended to visualize electric field (force lines, equipotentia
 ```
 - On Windows:
 ```shell
-    bin/ForceField3D.exe
+    bin\ForceField3D.exe
 ```
 
 ## Usage
