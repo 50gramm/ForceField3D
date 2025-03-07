@@ -138,7 +138,7 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 		bool finished = false;
 		Vec3D E(0,0,0);
 		Vec3D dE(0,0,0);
-		for(const PointCharge& charge : state.charges)
+		for(const PointCharge& charge : state.getCharges())
 		{
 			Vec3D dr = (pos - charge.r);
 			real dist = dr.len();
@@ -170,11 +170,11 @@ void ForceLines::regenerate()
 	linesMesh = Mesh();
 
 	real sumCharge = 0;
-	for(const PointCharge& charge : state.charges)
+	for(const PointCharge& charge : state.getCharges())
 		sumCharge += charge.charge;
 	bool positive = (0 < sumCharge);
 
-	for(const PointCharge& charge : state.charges) if(charge.isPositive() == positive)
+	for(const PointCharge& charge : state.getCharges()) if(charge.isPositive() == positive)
 	{
 		int n = 8 * fabs(charge.charge);
 		DynamicArray<Vec3D> starts = genPointsOnSphere(n, charge.getId());
@@ -188,13 +188,13 @@ void ForceLines::regenerate()
 	linesMesh.fillDrawCmd(drawCmd);
 	drawCmd.vars.addVariable<std::vector<real>>("aTangentialNormalized", tangentialNormalized);
 
-	generatedStateId = state.stateId;
+	generatedStateId = state.getId();
 }
 
 
 void ForceLines::draw(DrawingQueue& drawing)
 {
-	if(generatedStateId != state.stateId)
+	if(generatedStateId != state.getId())
 		regenerate();
 
 	drawing.add(&drawCmd);

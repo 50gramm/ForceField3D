@@ -37,7 +37,7 @@ void EquiPotFace::regenerate()
 	PotFunc potFunc(state);
 
 	DynamicArray<Vec3D> sources;
-	for(PointCharge charge : state.charges)
+	for(PointCharge charge : state.getCharges())
 	{
 		if((charge.charge < 0) == (potFunc.sign > 0))
 			sources.add(charge.r);
@@ -45,7 +45,7 @@ void EquiPotFace::regenerate()
 
 	surfaceMeshing.generate(sources, potFunc, visSettings["EquiPotFace"]["VoxelSize"].get<real>());
 
-	generatedStateId = state.stateId;
+	generatedStateId = state.getId();
 }
 
 
@@ -54,7 +54,7 @@ void EquiPotFace::draw(DrawingQueue& drawing)
 	if(!show)
 		return;
 	
-	if(generatedStateId != state.stateId)
+	if(generatedStateId != state.getId())
 	{
 		regenerate();
 	}

@@ -31,15 +31,18 @@ public:
 };
 
 
-struct ForceFieldState
+class ForceFieldState
 {
+public:
 	typedef long long UniqueId;
+
+private:
 	UniqueId stateId = 1;
 
 	DynamicArray<PointCharge> charges;
 	std::map<PointCharge::UniqueId, int> idToIdx;
 
-	
+public:
 	ForceFieldState();
 
 	UniqueId getId() const { return stateId; }
@@ -49,14 +52,11 @@ struct ForceFieldState
 	const PointCharge* getCharge(PointCharge::UniqueId id) const;
 
 	void setCharge(const PointCharge& charge);
-
 	void addCharge(const PointCharge& charge);
-
 	void delCharge(UniqueId id);
 
 	real getChargeSum() const;
 
 	real getU(const Vec3D& r) const;
-
 	Vec3D getE(const Vec3D& r) const;
 };

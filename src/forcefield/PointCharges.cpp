@@ -20,8 +20,8 @@ void PointCharges::draw(DrawingQueue& drawing)
 	DrawCommandGL defCmd = chargeMesh.genDrawCmd();
 
 	cmds.clear();
-	cmds.reserve(state.charges.size());
-	for(const PointCharge& charge : state.charges)
+	cmds.reserve(state.getCharges().size());
+	for(const PointCharge& charge : state.getCharges())
 	{
 		cmds.emplace_back(defCmd);
 		DrawCommandGL& cmd = cmds.back();
