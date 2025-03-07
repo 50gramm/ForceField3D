@@ -45,6 +45,8 @@ set(COMMON_SOURCES
 	${COMMON_SRC_DIR}/Vec.hpp
 	${COMMON_SRC_DIR}/File.hpp
 	${COMMON_SRC_DIR}/File.cpp
+	${COMMON_SRC_DIR}/Settings.hpp
+	${COMMON_SRC_DIR}/Settings.cpp
 	${COMMON_SRC_DIR}/Image.hpp
 	${COMMON_SRC_DIR}/Image.cpp
 	${COMMON_SRC_DIR}/MathUtils.hpp

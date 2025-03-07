@@ -26,8 +26,9 @@ struct PotFunc : public SpaceFunc
 
 EquiPotFace::EquiPotFace(const ForceFieldState& state, const VisualSettings& visSettings)
 	: state(state)
+	, visSettings(visSettings)
 {
-	surfaceMeshing.setMaterial(visSettings.materials.getMaterial("EquiPotFace"));
+	surfaceMeshing.setMaterial(visSettings.getMaterial("EquiPotFace"));
 }
 
 
@@ -42,7 +43,7 @@ void EquiPotFace::regenerate()
 			sources.add(charge.r);
 	}
 
-	surfaceMeshing.generate(sources, potFunc, faceRes);
+	surfaceMeshing.generate(sources, potFunc, visSettings["EquiPotFace"]["VoxelSize"].get<real>());
 
 	generatedStateId = state.stateId;
 }

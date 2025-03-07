@@ -11,8 +11,8 @@
 class EquiPotFace : public IVisual, public KeyObserver
 {
 	const ForceFieldState& state;
+	const VisualSettings& visSettings;
 	SurfaceMeshing surfaceMeshing;
-	real faceRes = 0.0201732846;
 	ForceFieldState::UniqueId generatedStateId = 0;
 
 	bool show = true;

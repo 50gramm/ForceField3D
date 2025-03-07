@@ -1,3 +1,4 @@
+#include "Settings.hpp"
 #include "CursorManager.hpp"
 #include "OpenGLContext.hpp"
 #include "DrawingQueue.hpp"
@@ -23,6 +24,7 @@ public:
 	virtual void onDraw(int width, int height) override;
 
 private:
+	Settings settings;
 	OpenGLContext renderer;
 	Vec3D eyePos = Vec3D(0.0, 0.0, 7.0);
 
@@ -38,8 +40,9 @@ IApplication *IApplication::create(int argc, char **argv)
 
 
 Application::Application(int /*argc*/, char ** /*argv*/)
+	: settings("settings.json")
 {
-	rootVisuals.push_back(new ForceFieldOp());
+	rootVisuals.push_back(new ForceFieldOp(settings));
 	//rootVisuals.push_back(new ShowObjOp());
 }
 

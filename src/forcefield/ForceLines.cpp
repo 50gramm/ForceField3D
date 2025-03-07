@@ -55,17 +55,18 @@ static DynamicArray<Vec3D> genPointsOnSphere(int n, unsigned seed)
 
 ForceLines::ForceLines(const ForceFieldState& state, const VisualSettings& visSettings)
 	: state(state)
+	, visSettings(visSettings)
 {
 	drawCmd.shaderName = "forcelines";
-	drawCmd.vars.addVariable("uMaterial", *visSettings.materials.getMaterial("ForceLine"));
-	drawCmd.vars.addVariable("uMaterial2", *visSettings.materials.getMaterial("ForceLineNegative"));
+	drawCmd.vars.addVariable("uMaterial", *visSettings.getMaterial("ForceLine"));
+	drawCmd.vars.addVariable("uMaterial2", *visSettings.getMaterial("ForceLineNegative"));
 }
 
 
 void ForceLines::generateLineMesh(const ForceLine& line)
 {
-	const int circRes = 12;
-	const real radius = 0.009; // TODO: From settings
+	const int circRes = visSettings["ForceLines"]["CircleSegments"].get<int>();
+	const real radius = visSettings["ForceLines"]["CircleRadius"].get<real>();
 
 	DynamicArray<Vec3D> circVert(circRes);
 	for(int i=0; i<circRes; ++i)
@@ -125,6 +126,8 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 
 ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const Vec3D dir, bool positiveDir) const
 {
+	const real lineStep = visSettings["ForceLines"]["LineSegmentSize"].get<real>();
+
 	ForceLine line;
 	line.startChargeValue = source.charge;
 	line.points.emplace_back(source.r, dir);
@@ -152,8 +155,7 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 		line.points.emplace_back(pos, dir);
 		if(finished || E.lenSqr() < SQR(1E-4))
 			break;
-		real dist = 0.02f;
-		pos += line.points.back().dir * dist;
+		pos += line.points.back().dir * lineStep;
 	}
 	
 	return line;

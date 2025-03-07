@@ -6,12 +6,12 @@ PointCharges::PointCharges(const ForceFieldState& state, const VisualSettings& v
 	: state(state)
 {
 	chargeMesh = GenSphere(1., 24, 48);
-	chargesMat[1][ChargeOverlay::OverlayNormal] = visSettings.materials.getMaterial("PositiveCharge");
-	chargesMat[0][ChargeOverlay::OverlayNormal] = visSettings.materials.getMaterial("NegativeCharge");
-	chargesMat[1][ChargeOverlay::OverlaySelected] = visSettings.materials.getMaterial("SelectedPositiveCharge");
-	chargesMat[0][ChargeOverlay::OverlaySelected] = visSettings.materials.getMaterial("SelectedNegativeCharge");
-	chargesMat[1][ChargeOverlay::OverlayPicked] = visSettings.materials.getMaterial("PickedPositiveCharge");
-	chargesMat[0][ChargeOverlay::OverlayPicked] = visSettings.materials.getMaterial("PickedNegativeCharge");
+	chargesMat[1][ChargeOverlay::OverlayNormal] = visSettings.getMaterial("PositiveCharge");
+	chargesMat[0][ChargeOverlay::OverlayNormal] = visSettings.getMaterial("NegativeCharge");
+	chargesMat[1][ChargeOverlay::OverlaySelected] = visSettings.getMaterial("SelectedPositiveCharge");
+	chargesMat[0][ChargeOverlay::OverlaySelected] = visSettings.getMaterial("SelectedNegativeCharge");
+	chargesMat[1][ChargeOverlay::OverlayPicked] = visSettings.getMaterial("PickedPositiveCharge");
+	chargesMat[0][ChargeOverlay::OverlayPicked] = visSettings.getMaterial("PickedNegativeCharge");
 }
 
 

@@ -12,6 +12,8 @@
 #include "SmartMovingOp.hpp"
 #include "ChargeManipulator.hpp"
 
+class Settings;
+
 
 class ForceFieldOp : public Object3D
 {
@@ -31,8 +33,8 @@ class ForceFieldOp : public Object3D
 	SmartMovingOp smartMovingOp;
 
 public:
-	ForceFieldOp()
-		: visSettings("ff.mtl")
+	ForceFieldOp(const Settings& settings)
+		: visSettings(settings["ForceField"]["visual"])
 		, scene(visSettings)
 		, charges(state, visSettings)
 		, forceLines(state, visSettings)

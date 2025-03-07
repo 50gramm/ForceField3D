@@ -28,6 +28,8 @@ class ForceLines : public IVisual
 	};
 
 	const ForceFieldState& state;
+	const VisualSettings& visSettings;
+
 	DynamicArray<ForceLine> lines;
 
 	Mesh linesMesh;

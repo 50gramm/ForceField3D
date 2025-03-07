@@ -1,0 +1,17 @@
+{
+	"ForceField" : {
+		"visual" : {
+			"materials" : "ff.mtl",
+
+			"ForceLines" : {
+				"CircleSegments" : 12,
+				"CircleRadius" : 0.009,
+				"LineSegmentSize" : 0.02
+			},
+
+			"EquiPotFace" : {
+				"VoxelSize" : 0.02
+			}
+		}
+	}
+}

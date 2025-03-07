@@ -1,13 +1,27 @@
 #pragma once
+#include "Settings.hpp"
 #include "MaterialContainer.hpp"
 
 
-struct VisualSettings
+class VisualSettings
 {
+	const Settings::json& jVis;
 	MaterialContainer materials;
 
-	VisualSettings(const char* materialName)
+public:
+	VisualSettings(const Settings::json& settings)
+		: jVis(settings)
 	{
-		materials.parseMaterials(materialName);
+		materials.parseMaterials(jVis["materials"].get<std::string>().c_str());
+	}
+
+	const Settings::json& operator[](const char* key) const
+	{
+		return jVis[key];
+	}
+
+	const Material* getMaterial(const char* name) const
+	{
+		return materials.getMaterial(name);
 	}
 };
