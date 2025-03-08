@@ -4,7 +4,7 @@
 
 
 Cursor3D::Cursor3D()
-	: materials("cursor.mtl")
+	: materials("{assets}/cursor.mtl")
 {
 	GenCone(mesh, 0.00, 0.01, 0.02, 12, Vec3D(0,-0.0,0));
 	GenCone(mesh, 0.01, 0.02, 0.02, 12, Vec3D(0,-0.02,0));

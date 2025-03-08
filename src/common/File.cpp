@@ -1,37 +1,46 @@
 #include <cstdio>
+#include <cstring>
 #include <optional>
 #include <exception>
-#include "Core.hpp"
+#include <map>
 #include "Platform.h"
-#include "Error.hpp"
-#include "StringUtils.hpp"
 #include "File.hpp"
 
 
 
-static std::string folders[File::SPEC_FOLDER_NUM];
+static std::map<std::string, std::string> folderMap;
 
 
-void File::set_folder(SpecialFolder folder, const std::string& name)
+void File::setFolder(const std::string& folder, const std::string& name)
 {
-	folders[folder] = name;
+	folderMap[folder] = name;
 }
 
-/*
-bool File::write(const char *file_name, const void* buff, int size)
-{
-	std::string full_path = (!folders[USER].empty() ? (folders[USER] + "/") : std::string("")) + file_name;
 
-	return platform_write_file(full_path.c_str(), buff, size) != 0;
+bool File::write(const char *fileName, const void* buff, int size)
+{
+	std::string fullPath = fileName;
+	for(const auto& it : folderMap)
+	{
+		if(!strncmp(fileName, it.first.c_str(), it.first.size()))
+			fullPath = it.second + (fileName + it.first.size());
+	}
+
+	return platform_write_file(fullPath.c_str(), buff, size) != 0;
 }
-*/
 
-FileContent File::read(const char *file_name, SpecialFolder folder)
+
+FileContent File::read(const char *fileName)
 {
-	std::string full_path = (!folders[folder].empty() ? (folders[folder] + "/") : std::string("")) + file_name;
+	std::string fullPath = fileName;
+	for(const auto& it : folderMap)
+	{
+		if(!strncmp(fileName, it.first.c_str(), it.first.size()))
+			fullPath = it.second + (fileName + it.first.size());
+	}
 
 	void* buff = nullptr;
-	size_t size = platform_read_asset(full_path.c_str(), &buff);
+	size_t size = platform_read_asset(fullPath.c_str(), &buff);
 	
 	FileContent content(size, buff);
 

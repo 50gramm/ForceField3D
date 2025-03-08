@@ -13,7 +13,7 @@ static bool isNewLine(char c)
 
 MeshObject::MeshObject(const char* filePath)
 {
-	FileContent content = File::read(filePath, File::ASSET);
+	FileContent content = File::read(filePath);
 	const char* pc = content.c_str();
 	const char* end = pc + content.get_size();
 	ASSERT(end[0] == 0);

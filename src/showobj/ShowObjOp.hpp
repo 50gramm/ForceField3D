@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Settings.hpp"
 #include "Object.hpp"
 #include "MeshObject.hpp"
 #include "Cursor3D.hpp"
@@ -18,10 +19,10 @@ class ShowObjOp : public Object3D
 	SmartMovingOp smartMovingOp;
 
 public:
-	ShowObjOp()
-		: visSettings("ff.mtl")
+	ShowObjOp(const Settings& settings)
+		: visSettings(settings["ShowObj"]["Visual"])
 		, scene(visSettings)
-		, obj("tmp/test_obj/planet.obj")
+		, obj(settings["ShowObj"]["Obj"].get<std::string>().c_str())
 		, smartMovingOp(spaceNode)
 	{
 		obj.setPosition(Matrix4({Vec3D(1,0,0),M_PI/2}, Vec3D(0,0,0), 0.1));

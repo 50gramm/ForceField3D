@@ -7,7 +7,7 @@ static DrawingProgramRegistrator<DefaultShader> shaderReg("background");
 
 
 Scene::Scene(const VisualSettings& visSettings)
-	: skyBox("skybox.obj")
+	: skyBox("{assets}/skybox.obj")
 {
 	lightCmd.shaderName = "LightHandler";
 	lightCmd.light.material = *visSettings.getMaterial("Light0");

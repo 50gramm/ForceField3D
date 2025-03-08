@@ -26,14 +26,9 @@ public:
 class File
 {
 public:
-	enum SpecialFolder
-	{
-		ASSET, // Read only
-		USER,  // Read/Write
-		SPEC_FOLDER_NUM
-	};
+	static void setFolder(const std::string& folder, const std::string& name);
 
-	static void set_folder(SpecialFolder folder, const std::string& name);
+	static FileContent read(const char *file_name);
 
-	static FileContent read(const char *file_name, SpecialFolder folder);
+	static bool write(const char *file_name, const void* buff, int size);
 };

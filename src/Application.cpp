@@ -40,10 +40,10 @@ IApplication *IApplication::create(int argc, char **argv)
 
 
 Application::Application(int /*argc*/, char ** /*argv*/)
-	: settings("settings.json")
+	: settings("{assets}/settings.json")
 {
 	rootVisuals.push_back(new ForceFieldOp(settings));
-	//rootVisuals.push_back(new ShowObjOp());
+	//rootVisuals.push_back(new ShowObjOp(settings));
 }
 
 

@@ -33,11 +33,11 @@ IDrawingProgram* ShaderManager::getShader(const std::string& name)
 	
 	LOG_I("GLSL>> Creating shader '%s'...", name.c_str());
 
-	std::string vsFileName = std::string("shaders/") + name + ".vs";
-	FileContent vsShaderSrc = File::read(vsFileName.c_str(), File::ASSET);
+	std::string vsFileName = std::string("{assets}/shaders/") + name + ".vs";
+	FileContent vsShaderSrc = File::read(vsFileName.c_str());
 
-	std::string fsFileName = std::string("shaders/") + name + ".fs";
-	FileContent fsShaderSrc = File::read(fsFileName.c_str(), File::ASSET);
+	std::string fsFileName = std::string("{assets}/shaders/") + name + ".fs";
+	FileContent fsShaderSrc = File::read(fsFileName.c_str());
 
 	shader->load(vsShaderSrc.c_str(), fsShaderSrc.c_str());
 

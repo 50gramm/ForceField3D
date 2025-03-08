@@ -23,7 +23,7 @@ MaterialContainer::~MaterialContainer()
 
 void MaterialContainer::parseMaterials(const char* fileName)
 {
-	FileContent content = File::read(fileName, File::ASSET);
+	FileContent content = File::read(fileName);
 	std::stringstream ss(content.c_str());
 	Material* material = nullptr;
 	real alpha = 1.0;

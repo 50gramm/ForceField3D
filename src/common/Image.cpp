@@ -19,7 +19,7 @@ bool Image::load(const char* file)
 		throw sformat("Invalid image name, only png supported: %s", file);
 	}
 
-	FileContent content = File::read(file, File::ASSET);
+	FileContent content = File::read(file);
 
 	unsigned w, h;
 	LodePNGState state;

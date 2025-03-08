@@ -117,8 +117,9 @@ int main(int argc, char **argv)
 	int pos = std::max((int)fullPath.find_last_of('/'), (int)fullPath.find_last_of('\\'));
 	std::string appDir;
 	if(0 <= pos)
-		appDir = fullPath.substr(0, pos) + '/';
-	File::set_folder(File::ASSET, appDir + "assets");
+		appDir = fullPath.substr(0, pos);
+	File::setFolder("{assets}", appDir + "/assets");
+	File::setFolder("{user}", appDir);
 
 	try {
 		app = IApplication::create(argc, argv);
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
 		LOG_E("Exception occurred: %s", msg.c_str());
 	}
 
-	Settings settings("settings.json");
+	Settings settings("{assets}/settings.json");
 	display_width = settings["Visual"]["WindowSize"][0];
 	display_height = settings["Visual"]["WindowSize"][1];
 

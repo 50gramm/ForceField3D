@@ -6,9 +6,16 @@
 		"SampleNum" : 0 // 0 = default
 	},
 
+	"ShowObj" : {
+		"Visual" : {
+			"Materials" : "{assets}/ff.mtl"
+		},
+		"Obj" : "{assets}/tmp/test.obj"
+	},
+
 	"ForceField" : {
 		"Visual" : {
-			"Materials" : "ff.mtl",
+			"Materials" : "{assets}/ff.mtl",
 
 			"ForceLines" : {
 				"CircleSegments" : 12,
