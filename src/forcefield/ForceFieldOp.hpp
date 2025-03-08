@@ -34,7 +34,7 @@ class ForceFieldOp : public Object3D
 
 public:
 	ForceFieldOp(const Settings& settings)
-		: visSettings(settings["ForceField"]["visual"])
+		: visSettings(settings["ForceField"]["Visual"])
 		, scene(visSettings)
 		, charges(state, visSettings)
 		, forceLines(state, visSettings)

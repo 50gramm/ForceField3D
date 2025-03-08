@@ -1,11 +1,8 @@
 #include "OpenGLDefs.hpp"
-#ifdef __APPLE__
-#	include <GLUT/glut.h>
-#else
-#	include <GL/freeglut.h>
-#endif
+#include <GL/freeglut.h>
 #include "Error.hpp"
 #include "File.hpp"
+#include "Settings.hpp"
 #include "KeyObserver.hpp"
 #include "MotionEvent.hpp"
 #include "TickObserver.hpp"
@@ -13,7 +10,7 @@
 
 
 static IApplication *app = nullptr;
-static int display_width = 1500, display_height = 900;
+static int display_width, display_height;
 static bool mouse_button_state[9] = {0};
 
 
@@ -131,13 +128,23 @@ int main(int argc, char **argv)
 		LOG_E("Exception occurred: %s", msg.c_str());
 	}
 
+	Settings settings("settings.json");
+	display_width = settings["Visual"]["WindowSize"][0];
+	display_height = settings["Visual"]["WindowSize"][1];
+
 	// init GLUT and create Window
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	unsigned displayMode = GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA;
+	if(settings["Visual"]["Multisampling"])
+		displayMode |= GLUT_MULTISAMPLE;
+	if(0 < settings["Visual"]["SampleNum"])
+		glutSetOption(GLUT_MULTISAMPLE, settings["Visual"]["SampleNum"]);
+	glutInitDisplayMode(displayMode);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(display_width, display_height);
 	glutCreateWindow(MODULE_NAME);
-	glutFullScreen();
+	if(settings["Visual"]["Fullscreen"])
+		glutFullScreen();
 
 	gladLoadGL();
 

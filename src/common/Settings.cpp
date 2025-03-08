@@ -6,7 +6,7 @@ Settings::Settings(const char* fileName)
 {
 	FileContent content = File::read(fileName, File::ASSET);
 
-	jSettings = nlohmann::json::parse(content.c_str());
+	jSettings = nlohmann::json::parse(content.c_str(), nullptr, true, true);
 }
 
 

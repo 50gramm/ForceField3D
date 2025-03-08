@@ -1,7 +1,14 @@
 {
+	"Visual" : {
+		"WindowSize" : [800, 600], // width, height of window when "Fullscreen" is false
+		"Fullscreen" : true,
+		"Multisampling" : true, // Antialias
+		"SampleNum" : 0 // 0 = default
+	},
+
 	"ForceField" : {
-		"visual" : {
-			"materials" : "ff.mtl",
+		"Visual" : {
+			"Materials" : "ff.mtl",
 
 			"ForceLines" : {
 				"CircleSegments" : 12,

@@ -12,7 +12,7 @@ public:
 	VisualSettings(const Settings::json& settings)
 		: jVis(settings)
 	{
-		materials.parseMaterials(jVis["materials"].get<std::string>().c_str());
+		materials.parseMaterials(jVis["Materials"].get<std::string>().c_str());
 	}
 
 	const Settings::json& operator[](const char* key) const
