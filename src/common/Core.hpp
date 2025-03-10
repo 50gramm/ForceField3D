@@ -1,6 +1,12 @@
 #pragma once
 #include <cmath>
 
+#ifdef _DEVELOPMENT
+#	include "DbgPrint.hpp"
+#else
+#	define dprint(...)
+#endif
+
 #ifdef _DOUBLE_PRECISION
 	using real = double;
 	constexpr real EPS = 1E-10;
