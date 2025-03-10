@@ -45,6 +45,10 @@ set(COMMON_SOURCES
 	${COMMON_SRC_DIR}/Vec.hpp
 	${COMMON_SRC_DIR}/File.hpp
 	${COMMON_SRC_DIR}/File.cpp
+	${COMMON_SRC_DIR}/DbgPrint.hpp
+	${COMMON_SRC_DIR}/Json.hpp
+	${COMMON_SRC_DIR}/JsonUtils.hpp
+	${COMMON_SRC_DIR}/JsonUtils.cpp
 	${COMMON_SRC_DIR}/Settings.hpp
 	${COMMON_SRC_DIR}/Settings.cpp
 	${COMMON_SRC_DIR}/Image.hpp
@@ -109,6 +113,7 @@ set(APP_SOURCES
 	${SRC_DIR}/forcefield/ChargeManipulator.hpp
 	${SRC_DIR}/forcefield/ChargeManipulator.cpp
 	${SRC_DIR}/forcefield/ForceFieldOp.hpp
+	${SRC_DIR}/forcefield/ForceFieldOp.cpp
 	${SRC_DIR}/forcefield/ForceFieldState.hpp
 	${SRC_DIR}/forcefield/ForceFieldState.cpp
 	${SRC_DIR}/forcefield/PointCharges.hpp

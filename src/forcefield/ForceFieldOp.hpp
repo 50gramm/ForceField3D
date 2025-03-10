@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Json.hpp"
 #include "Object.hpp"
 #include "ForceFieldState.hpp"
 #include "VisualSettings.hpp"
@@ -15,7 +16,7 @@
 class Settings;
 
 
-class ForceFieldOp : public Object3D
+class ForceFieldOp : public Object3D, public KeyObserver
 {
 	ForceFieldState state;
 	VisualSettings visSettings;
@@ -33,20 +34,10 @@ class ForceFieldOp : public Object3D
 	SmartMovingOp smartMovingOp;
 
 public:
-	ForceFieldOp(const Settings& settings)
-		: visSettings(settings["ForceField"]["Visual"])
-		, scene(visSettings)
-		, charges(state, visSettings)
-		, forceLines(state, visSettings)
-		, equiPotFace(state, visSettings)
-		, chargeManipulator(state, spaceNode, charges)
-		, smartMovingOp(spaceNode)
-	{
-		spaceNode.addChild(&charges);
-		spaceNode.addChild(&forceLines);
-		spaceNode.addChild(&equiPotFace);
-		addChild(&cursor);
-		addChild(&scene);
-		addChild(&spaceNode);
-	}
+	ForceFieldOp(const Settings& settings);
+
+	virtual bool onKey(const KeyEvent& event) override;
+
+	Json dumpToJson() const;
+	void parseJson(const Json& jState);
 };

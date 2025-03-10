@@ -1,28 +1,11 @@
-
+#include "File.hpp"
+#include "JsonUtils.hpp"
 #include "TransformationMatrix.hpp"
 #include "ForceFieldState.hpp"
 
+
 PointCharge::UniqueId PointCharge::nextId = 1;
-
-
-ForceFieldState::ForceFieldState()
-{
-	// TODO: Read from file
-	Matrix4 baseRot(Rotation3DData(Vec3D(0,0,1), real(M_PI/3)), Vec3D(0,0,0));
-	Vec3D baseR1(0.0, 0.3*sqrt(3)/2, 0.0);
-	Vec3D baseR2 = baseR1 * 1.9;
-	Matrix4 rot(1);
-	for(int i=0; i<3; ++i)
-	{
-		addCharge({rot * baseR1, -1.0});
-		rot *= baseRot;
-		if(i == 2)
-			addCharge({rot * baseR2 + Vec3D(0.27, -0.1, 0.0), 1.2});
-		else
-			addCharge({rot * baseR2, 1.2});
-		rot *= baseRot;
-	}
-}
+ForceFieldState::UniqueId ForceFieldState::nextStateId = 1;
 
 
 const PointCharge* ForceFieldState::getCharge(PointCharge::UniqueId id) const
@@ -91,4 +74,40 @@ Vec3D ForceFieldState::getE(const Vec3D& r) const
 		E += dr * (charge.charge / (dist*dist*dist));
 	}
 	return E;
+}
+
+
+Json ForceFieldState::dumpToJson() const
+{
+	Json jRes;
+	for(const PointCharge& charge : getCharges())
+	{
+		Json jCharge;
+		jCharge["Pos"] = {charge.r.x, charge.r.y, charge.r.z};
+		jCharge["Charge"] = charge.charge;
+		jRes["Charges"].push_back(jCharge);
+	}
+
+	return jRes;
+}
+
+
+ForceFieldState ForceFieldState::parseJson(const Json& jState)
+{
+	ForceFieldState state;
+
+	Json jCharges = jState["Charges"];
+	for(const auto& jCharge : jCharges)
+	{
+		state.addCharge(PointCharge(
+			Vec3D(
+				jCharge["Pos"][0],
+				jCharge["Pos"][1],
+				jCharge["Pos"][2]
+			),
+			jCharge["Charge"]
+		));
+	}
+
+	return state;
 }

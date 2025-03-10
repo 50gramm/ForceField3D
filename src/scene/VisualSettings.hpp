@@ -5,17 +5,17 @@
 
 class VisualSettings
 {
-	const Settings::json& jVis;
+	const Json& jVis;
 	MaterialContainer materials;
 
 public:
-	VisualSettings(const Settings::json& settings)
+	VisualSettings(const Json& settings)
 		: jVis(settings)
 	{
 		materials.parseMaterials(jVis["Materials"].get<std::string>().c_str());
 	}
 
-	const Settings::json& operator[](const char* key) const
+	const Json& operator[](const char* key) const
 	{
 		return jVis[key];
 	}

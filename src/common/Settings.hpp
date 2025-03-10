@@ -1,16 +1,14 @@
 #pragma once
-#include <nlohmann/json.hpp>
+#include "JsonUtils.hpp"
 #include "Error.hpp"
 
 
 class Settings
 {
-	nlohmann::json jSettings;
+	Json jSettings;
 
 public:
-	using json = nlohmann::json;
+	Settings(const char* filePath);
 
-	Settings(const char* fileName);
-
-	const json& operator[](const char* key) const;
+	const Json& operator[](const char* key) const;
 };

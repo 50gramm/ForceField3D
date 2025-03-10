@@ -1,6 +1,7 @@
 
 #pragma once
 #include <map>
+#include "Json.hpp"
 #include "Array.hpp"
 #include "Vec.hpp"
 
@@ -37,14 +38,13 @@ public:
 	typedef long long UniqueId;
 
 private:
-	UniqueId stateId = 1;
+	static UniqueId nextStateId;
+	UniqueId stateId = nextStateId++;
 
 	DynamicArray<PointCharge> charges;
 	std::map<PointCharge::UniqueId, int> idToIdx;
 
 public:
-	ForceFieldState();
-
 	UniqueId getId() const { return stateId; }
 
 	const DynamicArray<PointCharge>& getCharges() const { return charges; }
@@ -59,4 +59,10 @@ public:
 
 	real getU(const Vec3D& r) const;
 	Vec3D getE(const Vec3D& r) const;
+
+	Json dumpToJson() const;
+	static ForceFieldState parseJson(const Json& jState);
+
+	void save(const char* name) const;
+	static ForceFieldState load(const char* name);
 };

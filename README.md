@@ -41,6 +41,8 @@ This application intended to visualize electric field (force lines, equipotentia
 - e - Switch equipotential surface on/off
 - p - Add positive charge at cursor position or increase existing charge value by one unit
 - n - Add negative charge at cursor position or decrease existing charge value by one unit
+- s - Save current state
+- l - Load state
 - Esc - Exit program
 - Left click + mouse move on charge - Drag the charge
 - Left click + mouse move on scene - Drag the scene

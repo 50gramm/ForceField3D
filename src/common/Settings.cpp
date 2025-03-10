@@ -2,15 +2,13 @@
 #include "Settings.hpp"
 
 
-Settings::Settings(const char* fileName)
+Settings::Settings(const char* filePath)
 {
-	FileContent content = File::read(fileName);
-
-	jSettings = nlohmann::json::parse(content.c_str(), nullptr, true, true);
+	jSettings = parseJsonFile(filePath);
 }
 
 
-const Settings::json& Settings::operator[](const char* key) const
+const Json& Settings::operator[](const char* key) const
 {
 	return jSettings[key];
 }
