@@ -8,6 +8,13 @@ PointCharge::UniqueId PointCharge::nextId = 1;
 ForceFieldState::UniqueId ForceFieldState::nextStateId = 1;
 
 
+void ForceFieldState::changed()
+{
+	stateId += 1;
+	nextStateId += 1;
+}
+
+
 const PointCharge* ForceFieldState::getCharge(PointCharge::UniqueId id) const
 {
 	if(!idToIdx.count(id))
@@ -20,7 +27,7 @@ void ForceFieldState::setCharge(const PointCharge& charge)
 {
 	ASSERT(idToIdx.count(charge.getId()));
 	charges[idToIdx.at(charge.getId())] = charge;
-	stateId += 1;
+	changed();
 }
 
 
@@ -29,7 +36,7 @@ void ForceFieldState::addCharge(const PointCharge& charge)
 	ASSERT(!idToIdx.count(charge.getId()));
 	idToIdx[charge.getId()] = charges.size();
 	charges.push_back(charge);
-	stateId += 1;
+	changed();
 }
 
 
@@ -39,7 +46,7 @@ void ForceFieldState::delCharge(UniqueId id)
 	idToIdx[charges.back().getId()] = idToIdx[id];
 	charges.pop_back();
 	idToIdx.erase(id);
-	stateId += 1;
+	changed();
 }
 
 

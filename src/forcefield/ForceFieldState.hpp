@@ -44,6 +44,8 @@ private:
 	DynamicArray<PointCharge> charges;
 	std::map<PointCharge::UniqueId, int> idToIdx;
 
+	void changed();
+	
 public:
 	UniqueId getId() const { return stateId; }
 
