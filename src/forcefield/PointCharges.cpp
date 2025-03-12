@@ -52,5 +52,5 @@ PointCharges::ChargeOverlay PointCharges::getOverlay(PointCharge::UniqueId id) c
 
 real PointCharges::getRadius(real charge)
 {
-	return sqrt(fabs(charge)) * 0.05;
+	return pow(fabs(charge), 1.0/3.0) * 0.05;
 }

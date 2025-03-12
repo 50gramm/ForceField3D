@@ -20,7 +20,8 @@
 			"ForceLines" : {
 				"CircleSegments" : 12,
 				"CircleRadius" : 0.009,
-				"LineSegmentSize" : 0.02
+				"LineSegmentSize" : 0.02,
+				"LinesPerCharge" : 4
 			},
 
 			"EquiPotFace" : {

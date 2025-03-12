@@ -164,6 +164,8 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 
 void ForceLines::regenerate()
 {
+	int linesPerCharge = visSettings["ForceLines"]["LinesPerCharge"];
+
 	lines.clear();
 	tangential.clear();
 	tangentialNormalized.clear();
@@ -176,7 +178,7 @@ void ForceLines::regenerate()
 
 	for(const PointCharge& charge : state.getCharges()) if(charge.isPositive() == positive)
 	{
-		int n = 8 * fabs(charge.charge);
+		int n = linesPerCharge * fabs(charge.charge);
 		DynamicArray<Vec3D> starts = genPointsOnSphere(n, 888);
 		for(const Vec3D& p : starts)
 		{
