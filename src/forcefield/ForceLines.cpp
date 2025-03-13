@@ -90,13 +90,17 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 
 	int segNum = 0;
 	real length = 0.0;
-	Vec3D prevPos;
+	Gradient prevGrad = {{}, Vec3D(0,0,1)};
+	Matrix4 fullRot(1);
 	for(const Gradient& grad : line.points)
 	{
 		if(0 < segNum)
-			length += (grad.pos - prevPos).len();
+			length += (grad.pos - prevGrad.pos).len();
 
-		Matrix4 mat({Vec3D(0,0,1), grad.dir}, grad.pos, radius);
+		Matrix4 rot({prevGrad.dir, grad.dir}, Vec3D(0,0,0));
+		fullRot = rot * fullRot;
+		Matrix4 mat = fullRot;
+		mat.scale(radius).setTranslation(grad.pos);
 		for(const Vec3D& p : circVert)
 		{
 			linesMesh.verts.push_back(mat * p);
@@ -105,7 +109,7 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 			tangentialNormalized.push_back(line.startChargeValue < 0 ? length*tangentFactor : 1.0 - length*tangentFactor);
 		}
 		segNum += 1;
-		prevPos = grad.pos;
+		prevGrad = grad;
 	}
 
 	for(int iSeg=0; iSeg+1<segNum; ++iSeg) //if(iSeg%2 == 0)
@@ -130,7 +134,7 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 
 	ForceLine line;
 	line.startChargeValue = source.charge;
-	line.points.emplace_back(source.r, dir);
+	line.points.push_back({source.r, dir});
 	Vec3D pos = source.r + dir * sqrt(fabs(source.charge)) * 0.01;
 
 	while(line.points.size() < 399)
@@ -152,7 +156,7 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 		}
 		Vec3D dir = E.norm();
 		dE -= dir * (dir * dE);
-		line.points.emplace_back(pos, dir);
+		line.points.push_back({pos, dir});
 		if(finished || E.lenSqr() < SQR(1E-4))
 			break;
 		pos += line.points.back().dir * lineStep;

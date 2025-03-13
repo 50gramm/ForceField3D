@@ -11,11 +11,6 @@ class ForceLines : public IVisual
 {
 	struct Gradient
 	{
-		Gradient(const Vec3D& pos, const Vec3D& dir)
-			: pos(pos)
-			, dir(dir)
-		{}
-
 		Vec3D pos;
 		Vec3D dir;
 	};
