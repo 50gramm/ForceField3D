@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <stdexcept>
 #include "Error.hpp"
 #include "StringUtils.hpp"
 #include "Platform.h"
@@ -11,7 +12,7 @@ size_t read_file(const char *name, void **pbuff)
 	FILE *file = fopen(path, "rb");
 	if(file == NULL)
 	{
-		throw sformat("Can not open file for read: %s\n", path);
+		throw std::runtime_error(sformat("Can not open file for read: %s\n", path));
 	}
 	
 	fseek(file, 0, SEEK_END);
@@ -46,8 +47,7 @@ int platform_write_file(const char *name, const void* buff, int size)
 	FILE *file = fopen(name, "wb");
 	if(file == NULL)
 	{
-		LOG_E("Can not open file for writing: %s\n", name);
-		return 0;
+		throw std::runtime_error(sformat("Can not open file for writing: %s\n", name));
 	}
 	
 	int n = fwrite(buff, 1, size, file);
