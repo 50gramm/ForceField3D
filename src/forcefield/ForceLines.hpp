@@ -2,12 +2,13 @@
 
 #include "Object.hpp"
 #include "Mesh.hpp"
+#include "KeyObserver.hpp"
 #include "MaterialContainer.hpp"
 #include "ForceFieldState.hpp"
 #include "VisualSettings.hpp"
 
 
-class ForceLines : public IVisual
+class ForceLines : public IVisual, public KeyObserver
 {
 	struct Gradient
 	{
@@ -33,6 +34,8 @@ class ForceLines : public IVisual
 	DrawCommandGL drawCmd;
 	ForceFieldState::UniqueId generatedStateId = 0;
 
+	bool show = true;
+
 	void generateLineMesh(const ForceLine& line);
 
 	ForceLine generateLine(const PointCharge& source, const Vec3D dir, bool positiveDir) const;
@@ -41,5 +44,8 @@ class ForceLines : public IVisual
 
 public:
 	ForceLines(const ForceFieldState& state, const VisualSettings& visSettings);
+
 	virtual void draw(DrawingQueue& drawing) override;
+
+	virtual bool onKey(const KeyEvent& event) override;
 };

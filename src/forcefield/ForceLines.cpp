@@ -200,8 +200,23 @@ void ForceLines::regenerate()
 
 void ForceLines::draw(DrawingQueue& drawing)
 {
+	if(!show)
+		return;
+
 	if(generatedStateId != state.getId())
 		regenerate();
 
 	drawing.add(&drawCmd);
+}
+
+
+bool ForceLines::onKey(const KeyEvent& event)
+{
+	if(event.action == KeyEvent::ACTION_DOWN && event.keyCode == 'f')
+	{
+		show = !show;
+		return true;
+	}
+
+	return false;
 }

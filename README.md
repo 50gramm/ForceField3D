@@ -4,7 +4,7 @@
 
 **3D visualization of electric field**
 
-This application intended to visualize electric field (force lines, equipotential surface) in 3D.
+This application intended to visualize electric field (lines of force, equipotential surface) in 3D.
 
 ## Features
 - Interactive
@@ -39,10 +39,13 @@ This application intended to visualize electric field (force lines, equipotentia
 
 ## Usage
 - e - Switch equipotential surface on/off
+- f - Switch lines of force on/off
 - p - Add positive charge at cursor position or increase existing charge value by one unit
 - n - Add negative charge at cursor position or decrease existing charge value by one unit
 - s - Save current state
 - l - Load state
+- r - Reset state to starter
+- Del - Delete all charges
 - Esc - Exit program
 - Left click + mouse move on charge - Drag the charge
 - Left click + mouse move on scene - Drag the scene

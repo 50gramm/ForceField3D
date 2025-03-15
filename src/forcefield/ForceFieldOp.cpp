@@ -44,6 +44,16 @@ bool ForceFieldOp::onKey(const KeyEvent& event)
 		}
 		return true;
 	}
+	else if(event.action == KeyEvent::ACTION_DOWN && event.keyCode == 'r')
+	{
+		parseJson(parseJsonFile("{assets}/ffstart.json"));
+		return true;
+	}
+	else if(event.action == KeyEvent::ACTION_DOWN && event.keyCode == 127) // Del
+	{
+		state = {};
+		return true;
+	}
 
 	return false;
 }
