@@ -20,7 +20,7 @@
 			"ForceLines" : {
 				"CircleSegments" : 12,
 				"CircleRadius" : 0.009,
-				"LineSegmentSize" : 0.02,
+				"LineAccuracy" : 0.001,
 				"LinesPerCharge" : 4
 			},
 

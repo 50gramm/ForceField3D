@@ -130,12 +130,13 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 
 ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const Vec3D dir, bool positiveDir) const
 {
-	const real lineStep = visSettings["ForceLines"]["LineSegmentSize"].get<real>();
+	const real lineAccuracy = visSettings["ForceLines"]["LineAccuracy"].get<real>();
 
 	ForceLine line;
 	line.startChargeValue = source.charge;
 	line.points.push_back({source.r, dir});
-	Vec3D pos = source.r + dir * sqrt(fabs(source.charge)) * 0.01;
+	Vec3D pos = source.r + dir * PointCharges::getRadius(source.charge) / 2;
+	real step = 1;
 
 	while(line.points.size() < 399)
 	{
@@ -154,12 +155,20 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 			E  += dr * ((positiveDir ? 1 : -1) * charge.charge / (dist*dist*dist));
 			dE += dr * ((positiveDir ? 1 : -1) * charge.charge / (SQR(SQR(dist))));
 		}
-		Vec3D dir = E.norm();
+		Vec3D eDir = E.norm();
 		dE -= dir * (dir * dE);
-		line.points.push_back({pos, dir});
+		line.points.push_back({pos, eDir});
 		if(finished || E.lenSqr() < SQR(1E-4))
 			break;
-		pos += line.points.back().dir * lineStep;
+
+		Vec3D nextPos;
+		do {
+			nextPos = pos + eDir * step;
+			step /= 2.0;
+		} while(lineAccuracy < (state.getE(nextPos).norm() % eDir).len() * step);
+		step *= 4.0;
+
+		pos = nextPos;
 	}
 	
 	return line;
