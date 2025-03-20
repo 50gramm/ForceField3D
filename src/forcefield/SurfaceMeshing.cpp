@@ -1,5 +1,7 @@
 #include <stack>
+#include "Tracer.hpp"
 #include "SurfaceMeshing.hpp"
+
 
 // from: https://graphics.stanford.edu/~mdfisher/Code/MarchingCubes/MarchingCubes.cpp
 static char triTable_[256][16] = {
@@ -366,6 +368,8 @@ SurfaceMeshing::Cube SurfaceMeshing::genCube(const GridPos& p0)
 
 void SurfaceMeshing::traverse(const Cube& cube)
 {
+	TRACE_FUNCTION
+
 	std::stack<size_t> st;
 	st.push(cubes.size());
 	cubes.add(cube);
@@ -454,6 +458,8 @@ void SurfaceMeshing::setMaterial(const Material* mater)
 
 void SurfaceMeshing::generateMesh()
 {
+	TRACE_FUNCTION
+	
 	for(const Cube& cube : cubes)
 		generateMesh(cube);
 
@@ -466,6 +472,8 @@ void SurfaceMeshing::generateMesh()
 
 void SurfaceMeshing::generate(const DynamicArray<Vec3D>& sources, const SpaceFunc& fv, real cubeSize)
 {
+	TRACE_FUNCTION
+
 	fx = &fv;
 	cubes.clear();
 	mesh = Mesh();

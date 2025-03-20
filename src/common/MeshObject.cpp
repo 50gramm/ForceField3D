@@ -1,6 +1,7 @@
 #include <cctype>
 #include <cstring>
 #include <filesystem>
+#include "Tracer.hpp"
 #include "File.hpp"
 #include "MeshObject.hpp"
 
@@ -13,6 +14,8 @@ static bool isNewLine(char c)
 
 MeshObject::MeshObject(const char* filePath)
 {
+	TRACE_FUNCTION
+	
 	FileContent content = File::read(filePath);
 	const char* pc = content.c_str();
 	const char* end = pc + content.get_size();

@@ -1,10 +1,10 @@
-
+#include "Tracer.hpp"
 #include "MathUtils.hpp"
 #include "ShaderManager.hpp"
 #include "DefaultShader.hpp"
 #include "ForceFieldState.hpp"
-#include "ForceLines.hpp"
 #include "ForceFieldOp.hpp"
+#include "ForceLines.hpp"
 
 
 static DrawingProgramRegistrator<DefaultShader> shaderReg("forcelines");
@@ -65,6 +65,8 @@ ForceLines::ForceLines(const ForceFieldState& state, const VisualSettings& visSe
 
 void ForceLines::generateLineMesh(const ForceLine& line)
 {
+	TRACE_FUNCTION
+
 	const int circRes = visSettings["ForceLines"]["CircleSegments"].get<int>();
 	const real radius = visSettings["ForceLines"]["CircleRadius"].get<real>();
 
@@ -130,6 +132,8 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 
 ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const Vec3D dir, bool positiveDir) const
 {
+	TRACE_FUNCTION
+	
 	const real lineAccuracy = visSettings["ForceLines"]["LineAccuracy"].get<real>();
 
 	ForceLine line;

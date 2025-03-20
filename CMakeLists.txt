@@ -41,6 +41,8 @@ set(COMMON_SOURCES
 	${COMMON_SRC_DIR}/Error.cpp
 	${COMMON_SRC_DIR}/Timing.hpp
 	${COMMON_SRC_DIR}/Timing.cpp
+	${COMMON_SRC_DIR}/Tracer.hpp
+	${COMMON_SRC_DIR}/Tracer.cpp
 	${COMMON_SRC_DIR}/Array.hpp
 	${COMMON_SRC_DIR}/Vec.hpp
 	${COMMON_SRC_DIR}/File.hpp
@@ -195,6 +197,9 @@ if(NOT NDEV)
 endif()
 if(DOUBLE)
 	add_compile_definitions(_DOUBLE_PRECISION)
+endif()
+if(TIMING)
+	add_compile_definitions(_TIMING)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")

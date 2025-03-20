@@ -8,6 +8,7 @@
 #include "TickObserver.hpp"
 #include "forcefield/ForceFieldOp.hpp"
 #include "showobj/ShowObjOp.hpp"
+#include "Tracer.hpp"
 
 
 class Application : public IApplication, KeyObserver, TickObserver
@@ -69,6 +70,8 @@ void Application::onTick(real /*dt*/)
 
 void Application::onDraw(int width, int height)
 {
+	TRACE_FUNCTION
+
 	DrawingQueue drawingQueue;
 
 	drawingQueue.pushMatrix(Matrix4({}, -eyePos));
