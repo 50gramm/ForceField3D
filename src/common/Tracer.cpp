@@ -1,9 +1,24 @@
-#ifdef _TIMING
+#ifdef _TRACE
 
 #include <iomanip>
 #include "Tracer.hpp"
 
 std::map<std::string, TraceStatistics::Statistic> TraceStatistics::statistics;
+
+template<class T>
+std::string formatCompact(T val)
+{
+	const char* metrics = " KMG";
+	int i=0;
+	while(30000 < val && metrics[i+1])
+	{
+		val /= 1000;
+		i += 1;
+	}
+
+	std::string res = std::to_string(val) + metrics[i];
+	return res;
+}
 
 
 TraceStatistics::Tracer::Tracer(Statistic& stat)
@@ -29,8 +44,8 @@ void TraceStatistics::print(std::ostream& out)
 			continue;
 		
 		out << "|" << stat.first << std::setw(22 - stat.first.size()) << " "
-			<< std::setw(27) << stat.second.totalTime << " "
-			<< std::setw(14) << (stat.second.totalTime/stat.second.count) << " "
+			<< std::setw(27) << formatCompact(stat.second.totalTime) << " "
+			<< std::setw(14) << formatCompact(stat.second.totalTime/stat.second.count) << " "
 			<< std::setw(13) << stat.second.count << "|\n";
 	}
 	out << "--------------------------------------------------------------------------------" << std::endl;

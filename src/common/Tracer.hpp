@@ -1,5 +1,5 @@
 #pragma once
-#ifdef _TIMING
+#ifdef _TRACE
 
 #include <map>
 #include <string>
