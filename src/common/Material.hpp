@@ -18,13 +18,13 @@ public:
 
 	bool hasTexture() const { return texture != nullptr; }
 
-	void setTexture(Texture* tex) { texture = tex; }
+	void setTexture(const std::shared_ptr<Texture>& tex) { texture = tex; }
 
 	bool isTransparent() const
 	{
 		return
 			(ambient.w < 1. || diffuse.w < 1. || specular.w < 1.) ||
-			(texture && texture->textureImage->getPixelFormat() == Image::PF_RGBA)
+			(texture && texture->getImage()->getPixelFormat() == Image::PF_RGBA)
 		;
 	}
 
@@ -33,5 +33,5 @@ public:
 	Color diffuse = {0.7, 0.7, 0.7, 1.0};
 	Color specular = {0.5, 0.5, 0.5, 1.0};
 	real specularExp = 10.0;
-	Texture* texture = nullptr;
+	std::shared_ptr<Texture> texture;
 };

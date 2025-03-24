@@ -9,7 +9,7 @@ int OpenGLContext::contextId = -1;
 int OpenGLContext::maxTextureSize = 0;
 
 
-unsigned OpenGLContext::makeTexture(Image *image)
+unsigned OpenGLContext::makeTexture(const Image *image)
 {
 	if(image->getPixels() == NULL)
 		return -1;
@@ -46,7 +46,7 @@ void OpenGLContext::makeAndBindTexture(Texture& texture)
 {
 	if(texture.textureName == -1 || texture.contextId != contextId)
 	{
-		texture.textureName = makeTexture(texture.textureImage);
+		texture.textureName = makeTexture(texture.getImage());
 		texture.contextId = contextId;
 	}
 	else

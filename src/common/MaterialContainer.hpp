@@ -17,5 +17,5 @@ public:
 
 private:
 	std::map<std::string, Material> materials;
-	std::map<std::string, Texture*> textures;
+	std::map<std::string, std::shared_ptr<Texture>> textures;
 };

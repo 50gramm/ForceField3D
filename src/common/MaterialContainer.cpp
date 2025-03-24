@@ -16,8 +16,6 @@ MaterialContainer::MaterialContainer(const char* fileName)
 
 MaterialContainer::~MaterialContainer()
 {
-	for(auto& it : textures)
-		delete it.second;
 }
 
 
@@ -82,7 +80,7 @@ void MaterialContainer::parseMaterials(const char* fileName)
 				{
 					std::filesystem::path textureFullPath = std::filesystem::path(fileName).parent_path() / textureName;
 					try {
-						material->setTexture(textures[textureName] = new Texture(textureFullPath.string().c_str()));
+						material->setTexture(textures[textureName] = std::make_shared<Texture>(textureFullPath.string().c_str()));
 					} catch(const std::string& str) {
 						LOG_E("Failed to load rexture\n %s", str.c_str());
 					}

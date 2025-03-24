@@ -9,7 +9,7 @@ class DrawingQueue;
 class OpenGLContext
 {
 public:
-	static unsigned makeTexture(Image *image);
+	static unsigned makeTexture(const Image *image);
 
 	static void makeAndBindTexture(Texture& texture);
 

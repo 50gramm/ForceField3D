@@ -29,7 +29,7 @@ private:
 	OpenGLContext renderer;
 	Vec3D eyePos = Vec3D(0.0, 0.0, 7.0);
 
-	DynamicArray<IVisual*> rootVisuals;
+	DynamicArray<std::unique_ptr<IVisual>> rootVisuals;
 };
 
 
@@ -43,8 +43,8 @@ IApplication *IApplication::create(int argc, char **argv)
 Application::Application(int /*argc*/, char ** /*argv*/)
 	: settings("{assets}/settings.json")
 {
-	rootVisuals.push_back(new ForceFieldOp(settings));
-	//rootVisuals.push_back(new ShowObjOp(settings));
+	rootVisuals.push_back(std::make_unique<ForceFieldOp>(settings));
+	//rootVisuals.push_back(std::make_unique<ShowObjOp>(settings));
 }
 
 
@@ -75,7 +75,7 @@ void Application::onDraw(int width, int height)
 	DrawingQueue drawingQueue;
 
 	drawingQueue.pushMatrix(Matrix4({}, -eyePos));
-	for(IVisual* vis : rootVisuals)
+	for(const auto& vis : rootVisuals)
 		vis->draw(drawingQueue);
 	drawingQueue.popMatrix();
 
