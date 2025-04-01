@@ -57,9 +57,6 @@ ForceLines::ForceLines(const ForceFieldState& state, const VisualSettings& visSe
 	: state(state)
 	, visSettings(visSettings)
 {
-	drawCmd.shaderName = "forcelines";
-	drawCmd.vars.addVariable("uMaterial", *visSettings.getMaterial("ForceLine"));
-	drawCmd.vars.addVariable("uMaterial2", *visSettings.getMaterial("ForceLineNegative"));
 }
 
 
@@ -204,7 +201,11 @@ void ForceLines::regenerate()
 		}
 	}
 
-	linesMesh.fillDrawCmd(drawCmd);
+	drawCmd = linesMesh.genDrawCmd();
+	drawCmd.shaderName = "forcelines";
+	drawCmd.vars.addVariable("uMaterial", *visSettings.getMaterial("ForceLine"));
+	drawCmd.vars.addVariable("uMaterial2", *visSettings.getMaterial("ForceLineNegative"));
+
 	drawCmd.vars.addVariable<std::vector<real>>("aTangentialNormalized", tangentialNormalized);
 
 	generatedStateId = state.getId();
