@@ -279,7 +279,7 @@ int edgeToVert[12][2] = {
 };
 
 static int triTable[256][16] = {
-	-2
+	{-2}
 };
 
 static void convertTriTables()
@@ -322,9 +322,9 @@ SurfaceMeshing::GridPos SurfaceMeshing::getGridPosOfVert(const SurfaceMeshing::G
 SurfaceMeshing::GridPos SurfaceMeshing::toGridCoord(const Vec3D& r) const
 {
 	return GridPos(
-		std::round(r.x / size),
-		std::round(r.y / size),
-		std::round(r.z / size)
+		(int)std::round(r.x / size),
+		(int)std::round(r.y / size),
+		(int)std::round(r.z / size)
 	);
 }
 

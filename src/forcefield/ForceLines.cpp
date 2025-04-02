@@ -192,7 +192,7 @@ void ForceLines::regenerate()
 
 	for(const PointCharge& charge : state.getCharges()) if(charge.isPositive() == positive)
 	{
-		int n = linesPerCharge * fabs(charge.charge);
+		int n = int(linesPerCharge * fabs(charge.charge));
 		DynamicArray<Vec3D> starts = genPointsOnSphere(n, 888);
 		for(const Vec3D& p : starts)
 		{

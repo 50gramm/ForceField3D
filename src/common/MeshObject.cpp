@@ -125,7 +125,7 @@ void MeshObject::parseFace(const char* line)
 			break;
 
 		int vi;
-		int res = sscanf(pc, "%d", &vi);
+		res = sscanf(pc, "%d", &vi);
 		ASSERT(res == 1);
 		face.vertexIndices.push_back(0 < vi ? vi-1 : verts.size() + vi);
 

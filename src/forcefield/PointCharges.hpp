@@ -20,7 +20,7 @@ public:
 
 private:
 	const ForceFieldState& state;
-	const Material* chargesMat[2][OverlayEnd] = {0};
+	const Material* chargesMat[2][OverlayEnd] = {};
 
 	Mesh chargeMesh;
 	DynamicArray<DrawCommandGL> cmds;

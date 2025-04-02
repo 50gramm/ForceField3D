@@ -203,7 +203,7 @@ if(TRACE)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare -Wno-unused-result -Wno-float-conversion -Wno-conversion -Wall -Wextra -Wno-shadow -Wformat=2 -Wno-float-equal -Wlogical-op")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-sign-compare")
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2")
 	endif()
