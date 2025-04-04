@@ -82,8 +82,7 @@ void DefaultShader::setGlParams(const DrawCommandGL& cmd)
 void DefaultShader::setLights()
 {
 	LightHandler* lightHandler = dynamic_cast<LightHandler*>(ShaderManager::getShader("LightHandler"));
-	if(lightHandler == nullptr)
-		throw std::runtime_error("LightHandler not found");
+	ASSERT(lightHandler);
 
 	int idx = 0;
 	for(const LightSource& light : lightHandler->getLights())

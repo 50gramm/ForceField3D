@@ -1,3 +1,4 @@
+#include "Exception.hpp"
 #include "JsonUtils.hpp"
 #include "ForceFieldOp.hpp"
 
@@ -72,7 +73,7 @@ Json ForceFieldOp::dumpToJson() const
 void ForceFieldOp::parseJson(const Json& jSave)
 {
 	if(1 < jSave["Version"])
-		throw std::runtime_error("The state was saved with newer version of program");
+		throw Exception("The state was saved with newer version of program");
 
 	spaceNode.setPosition(parseJsonMatrix(jSave["Matrix"]));
 	state = ForceFieldState::parseJson(jSave["ForceField"]);

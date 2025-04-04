@@ -62,9 +62,9 @@ class GLSLVariableTransmitter
 	std::map<std::string, int> attributeLocs;
 	std::vector<int> enabledVertexAttribs;
 
-	int getAttribLocation(const std::string& name, bool mustHave);
+	int getAttribLocation(const std::string& name);
 
-	int getUniformLocation(const std::string& name, bool mustHave);
+	int getUniformLocation(const std::string& name);
 
 	template<class T>
 	void setVertexAttribArray(int loc, const std::vector<T>& arr);
@@ -82,9 +82,9 @@ public:
 
 
 	template<class T>
-	void setVertexAttribArray(const std::string& name, const std::vector<T>& arr, bool mustHave=false)
+	void setVertexAttribArray(const std::string& name, const std::vector<T>& arr)
 	{
-		int loc = getAttribLocation(name, mustHave);
+		int loc = getAttribLocation(name);
 		if(loc < 0 || arr.empty())
 			return;
 
@@ -92,12 +92,12 @@ public:
 	}
 
 
-	void setUniform(const std::string& name, const Material& val, bool mustHave=false);
+	void setUniform(const std::string& name, const Material& val);
 
 	template<class T>
-	void setUniform(const std::string& name, const T& val, bool mustHave=false)
+	void setUniform(const std::string& name, const T& val)
 	{
-		setUniform(getUniformLocation(name, mustHave), val);
+		setUniform(getUniformLocation(name), val);
 	}
 
 

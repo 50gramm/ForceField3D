@@ -22,10 +22,8 @@ void ShaderManager::registerProgram(const std::string& name, IDrawingProgram* sh
 
 IDrawingProgram* ShaderManager::getShader(const std::string& name)
 {
-	if(!getShaderStore().count(name))
-		throw std::string("Shader not registered: ") + name;
-
 	IDrawingProgram* program = getShaderStore()[name];
+	ASSERT(program, "Shader not registered: %s", name.c_str());
 	Shader* shader = dynamic_cast<Shader*>(program);
 
 	if(shader == nullptr || shader->isLoaded())

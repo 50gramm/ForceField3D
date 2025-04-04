@@ -41,22 +41,18 @@ void ShaderVariableContainer::addVariable<Material>(const std::string& name, con
 }
 
 
-int GLSLVariableTransmitter::getAttribLocation(const std::string& name, bool mustHave)
+int GLSLVariableTransmitter::getAttribLocation(const std::string& name)
 {
 	int loc = glGetAttribLocation(shaderId, name.c_str());
 	CHECK_GL_ERROR();
-	if(loc < 0 && mustHave)
-		throw std::runtime_error(sformat("Shader attrib \"%s\" not found", name.c_str()).c_str());
 	return loc;
 }
 
 
-int GLSLVariableTransmitter::getUniformLocation(const std::string& name, bool mustHave)
+int GLSLVariableTransmitter::getUniformLocation(const std::string& name)
 {
 	int loc = glGetUniformLocation(shaderId, name.c_str());
 	CHECK_GL_ERROR();
-	if(loc < 0 && mustHave)
-		throw std::runtime_error(sformat("Shader uniform \"%s\" not found", name.c_str()).c_str());
 	return loc;
 }
 
@@ -123,18 +119,18 @@ void GLSLVariableTransmitter::setUniform<TransformationMatrixT<double, MatrixDat
 }
 
 
-void GLSLVariableTransmitter::setUniform(const std::string& name, const Material& val, bool mustHave)
+void GLSLVariableTransmitter::setUniform(const std::string& name, const Material& val)
 {
-	setUniform(name + ".ambient", val.ambient, mustHave);
-	setUniform(name + ".diffuse", val.diffuse, mustHave);
-	setUniform(name + ".specular", val.specular, mustHave);
-	setUniform(name + ".shininess", val.specularExp, mustHave);
-	setUniform(name + ".hasTexture", (int)val.hasTexture(), mustHave);
+	setUniform(name + ".ambient", val.ambient);
+	setUniform(name + ".diffuse", val.diffuse);
+	setUniform(name + ".specular", val.specular);
+	setUniform(name + ".shininess", val.specularExp);
+	setUniform(name + ".hasTexture", (int)val.hasTexture());
 
 	if(val.hasTexture())
 	{
 		OpenGLContext::makeAndBindTexture(*val.texture);
-		setUniform(name + "_sampler", 0, mustHave);
+		setUniform(name + "_sampler", 0);
 	}
 }
 

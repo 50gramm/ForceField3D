@@ -11,8 +11,7 @@ Json parseJsonFile(const char* filePath)
 void dumpToJsonFile(const Json& jObject, const char* filePath)
 {
 	std::string sObject = jObject.dump(1, '\t');
-	if(!File::write(filePath, sObject.c_str(), sObject.size()))
-		throw std::runtime_error("Failed to write file");
+	File::write(filePath, sObject.c_str(), sObject.size());
 }
 
 

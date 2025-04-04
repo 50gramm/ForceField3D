@@ -30,5 +30,5 @@ public:
 
 	static FileContent read(const char *file_name);
 
-	static bool write(const char *file_name, const void* buff, int size);
+	static void write(const char *file_name, const void* buff, int size);
 };

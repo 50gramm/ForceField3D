@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include "Error.hpp"
+#include "Exception.hpp"
 #include "StringUtils.hpp"
 #include "OpenGLDefs.hpp"
 #include "OpenGLContext.hpp"
@@ -33,7 +34,7 @@ loadShader(GLenum type, const char *shaderSrc)
 		glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
 		glDeleteShader(shader);
 
-		throw sformat("GLSL>> Error compiling shader:\n%s\n", infoLog);
+		throw Exception("GLSL>> Error compiling shader:\n%s\n", infoLog);
 	}
 
 	return shader;
@@ -63,7 +64,7 @@ void Shader::load(const char* vShader, const char* fShader)
 
 	if(id == 0)
 	{
-		throw sformat("GLSL>> glCreateProgram failed: %d", glGetError());
+		throw Exception("GLSL>> glCreateProgram failed: %u", glGetError());
 	}
 
 	transmitter = GLSLVariableTransmitter(id);
@@ -83,7 +84,7 @@ void Shader::load(const char* vShader, const char* fShader)
 		glGetProgramInfoLog(id, sizeof(infoLog), NULL, infoLog);
 		glDeleteProgram(id);
 
-		throw sformat("GLSL>> Failed to link program:\n%s\n", infoLog);
+		throw Exception("GLSL>> Failed to link program:\n%s\n", infoLog);
 	}
 
 	contextId = OpenGLContext::getContextId();

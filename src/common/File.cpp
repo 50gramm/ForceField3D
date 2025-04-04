@@ -1,7 +1,4 @@
-#include <cstdio>
 #include <cstring>
-#include <optional>
-#include <exception>
 #include <map>
 #include "Platform.h"
 #include "File.hpp"
@@ -17,7 +14,7 @@ void File::setFolder(const std::string& folder, const std::string& name)
 }
 
 
-bool File::write(const char *fileName, const void* buff, int size)
+void File::write(const char *fileName, const void* buff, int size)
 {
 	std::string fullPath = fileName;
 	for(const auto& it : folderMap)
@@ -26,7 +23,7 @@ bool File::write(const char *fileName, const void* buff, int size)
 			fullPath = it.second + (fileName + it.first.size());
 	}
 
-	return platform_write_file(fullPath.c_str(), buff, size) != 0;
+	platform_write_file(fullPath.c_str(), buff, size);
 }
 
 
@@ -40,7 +37,7 @@ FileContent File::read(const char *fileName)
 	}
 
 	void* buff = nullptr;
-	size_t size = platform_read_asset(fullPath.c_str(), &buff);
+	size_t size = platform_read_file(fullPath.c_str(), &buff);
 	
 	FileContent content(size, buff);
 
