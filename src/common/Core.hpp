@@ -4,7 +4,7 @@
 #ifdef _DEVELOPMENT
 #	include "DbgPrint.hpp"
 #else
-#	define dprint(...)
+#	define dprint(...) {}
 #endif
 
 #ifdef _DOUBLE_PRECISION

@@ -62,10 +62,8 @@ void OpenGLContext::contextChanged()
 		return;
 
 	LOG_I(">>> OpenGL info >>>");
-	const GLubyte *version = glGetString(GL_VERSION);
-	LOG_I("  Version: %s", version);
-	const GLubyte *renderer = glGetString(GL_RENDERER);
-	LOG_I("  Vendor: %s", renderer);
+	LOG_I("  Version: %s", glGetString(GL_VERSION));
+	LOG_I("  Vendor: %s", glGetString(GL_RENDERER));
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
 	LOG_I("  Max texture size: %d x %d", maxTextureSize, maxTextureSize);
 	LOG_I("<<< OpenGL info <<<");

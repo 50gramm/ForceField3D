@@ -9,6 +9,7 @@
 #include "Error.hpp"
 
 
+#ifdef _DEVELOPMENT
 
 void assertion_failed(
 	const char* file, 
@@ -44,6 +45,7 @@ void assertion_failed(
 		LOG_E("  Message: \"%s\"\n", message);
 }
 
+#endif
 
 void log(int level, const char *format, ...)
 {

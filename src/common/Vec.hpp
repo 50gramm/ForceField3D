@@ -863,11 +863,20 @@ public:
 		return data()[i];
 	}
 
-	bool check()
+	template<class T_=T>
+	typename std::enable_if<std::is_floating_point<T_>::value,bool>::type
+	check()
 	{
 		for(int i=0; i<N; ++i)
 			if(!std::isfinite(data()[i]))
 				return false;
+		return true;
+	}
+
+	template<class T_=T>
+	typename std::enable_if<!std::is_floating_point<T_>::value,bool>::type
+	check()
+	{
 		return true;
 	}
 };

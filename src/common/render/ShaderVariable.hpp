@@ -102,7 +102,14 @@ public:
 
 
 	template<class T>
-	void setUniform(int loc, const T& val);
+	void setUniform(int loc, const T& val)
+	{
+		if(0 <= loc)
+			setUniformInner(loc, val);
+	}
+
+	template<class T>
+	void setUniformInner(int loc, const T& val);
 
 	void setVariables(const ShaderVariableContainer& vars);
 

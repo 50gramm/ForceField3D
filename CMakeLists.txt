@@ -39,6 +39,7 @@ set(COMMON_SOURCES
 	${COMMON_SRC_DIR}/Core.hpp
 	${COMMON_SRC_DIR}/Error.hpp
 	${COMMON_SRC_DIR}/Error.cpp
+	${COMMON_SRC_DIR}/Exception.hpp
 	${COMMON_SRC_DIR}/Timing.hpp
 	${COMMON_SRC_DIR}/Timing.cpp
 	${COMMON_SRC_DIR}/Tracer.hpp

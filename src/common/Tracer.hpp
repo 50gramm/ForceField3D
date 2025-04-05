@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <iostream>
 #include "Timing.hpp"
 
 struct TraceStatistics

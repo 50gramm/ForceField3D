@@ -20,6 +20,7 @@ This application intended to visualize electric field (lines of force, equipoten
 - Get source:
 ```shell
     git clone --recursive https://github.com/50gramm/ForceField3D.git
+    cd ForceField3D
 ```
 
 - Build:

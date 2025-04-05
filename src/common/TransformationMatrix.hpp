@@ -8,7 +8,7 @@ class Rotation3DData
 {
 public:
 	using Vec = VecT<T,3>;
-	Vec dir;
+	Vec dir {0,0,0};
 	T sinus = 0, cosinus = 1;
 
 	Rotation3DData() {}

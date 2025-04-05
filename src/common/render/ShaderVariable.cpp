@@ -58,28 +58,28 @@ int GLSLVariableTransmitter::getUniformLocation(const std::string& name)
 
 
 template<>
-void GLSLVariableTransmitter::setUniform<int>(int loc, const int& val)
+void GLSLVariableTransmitter::setUniformInner<int>(int loc, const int& val)
 {
 	glUniform1i(loc, val);
 	CHECK_GL_ERROR();
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<real>(int loc, const real& val)
+void GLSLVariableTransmitter::setUniformInner<real>(int loc, const real& val)
 {
 	glUniform1f(loc, (float)val);
 	CHECK_GL_ERROR();
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<VecT<float,3>>(int loc, const VecT<float,3>& val)
+void GLSLVariableTransmitter::setUniformInner<VecT<float,3>>(int loc, const VecT<float,3>& val)
 {
 	glUniform3fv(loc, 1, &val[0]);
 	CHECK_GL_ERROR();
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<VecT<double,3>>(int loc, const VecT<double,3>& val)
+void GLSLVariableTransmitter::setUniformInner<VecT<double,3>>(int loc, const VecT<double,3>& val)
 {
 	VecT<float,3> fval(static_cast<float>(val[0]), static_cast<float>(val[1]), static_cast<float>(val[2]));
 	glUniform3fv(loc, 1, &fval[0]);
@@ -87,14 +87,14 @@ void GLSLVariableTransmitter::setUniform<VecT<double,3>>(int loc, const VecT<dou
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<VecT<float,4>>(int loc, const VecT<float,4>& val)
+void GLSLVariableTransmitter::setUniformInner<VecT<float,4>>(int loc, const VecT<float,4>& val)
 {
 	glUniform4fv(loc, 1, &val[0]);
 	CHECK_GL_ERROR();
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<VecT<double,4>>(int loc, const VecT<double,4>& val)
+void GLSLVariableTransmitter::setUniformInner<VecT<double,4>>(int loc, const VecT<double,4>& val)
 {
 	VecT<float,4> fval(static_cast<float>(val[0]), static_cast<float>(val[1]), static_cast<float>(val[2]), static_cast<float>(val[3]));
 	glUniform4fv(loc, 1, &fval[0]);
@@ -102,14 +102,14 @@ void GLSLVariableTransmitter::setUniform<VecT<double,4>>(int loc, const VecT<dou
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<TransformationMatrixT<float, MatrixDataVecT>>(int loc, const TransformationMatrixT<float, MatrixDataVecT>& val)
+void GLSLVariableTransmitter::setUniformInner<TransformationMatrixT<float, MatrixDataVecT>>(int loc, const TransformationMatrixT<float, MatrixDataVecT>& val)
 {
 	glUniformMatrix4fv(loc, 1, GL_FALSE, val[0]);
 	CHECK_GL_ERROR();
 }
 
 template<>
-void GLSLVariableTransmitter::setUniform<TransformationMatrixT<double, MatrixDataVecT>>(int loc, const TransformationMatrixT<double, MatrixDataVecT>& val)
+void GLSLVariableTransmitter::setUniformInner<TransformationMatrixT<double, MatrixDataVecT>>(int loc, const TransformationMatrixT<double, MatrixDataVecT>& val)
 {
 	float fv[16];
 	for(int i=0; i<16; ++i)

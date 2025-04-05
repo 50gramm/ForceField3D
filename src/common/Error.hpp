@@ -20,9 +20,8 @@
 	);
 #	define ASSERT(condition, ...)		{ if(!(condition)) { assertion_failed(__FILE__, __FUNCTION__, __LINE__, #condition, ##__VA_ARGS__); DBG_BREAK }}
 #else
-#	define DBG_BREAK
-#	define ASSERT(condition, ...)
-#	define dprint(...)
+#	define DBG_BREAK {}
+#	define ASSERT(condition, ...) {}
 #endif
 
 void log(int type, const char *format, ...);
