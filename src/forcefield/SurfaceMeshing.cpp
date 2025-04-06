@@ -322,9 +322,9 @@ SurfaceMeshing::GridPos SurfaceMeshing::getGridPosOfVert(const SurfaceMeshing::G
 SurfaceMeshing::GridPos SurfaceMeshing::toGridCoord(const Vec3D& r) const
 {
 	return GridPos(
-		(int)std::round(r.x / size),
-		(int)std::round(r.y / size),
-		(int)std::round(r.z / size)
+		(int)std::floor(r.x / size),
+		(int)std::floor(r.y / size),
+		(int)std::floor(r.z / size)
 	);
 }
 
@@ -484,6 +484,9 @@ void SurfaceMeshing::generate(const DynamicArray<Vec3D>& sources, const SpaceFun
 	{
 		ASSERT(fv(p0 + Vec3D(EPS,0,0)) < 0);
 		GridPos p = toGridCoord(p0);
+		if(!(value(p) < 0))
+			continue;
+		
 		GridPos dirs[] = {
 			GridPos( 1, 0, 0),
 			GridPos(-1, 0, 0),
@@ -494,10 +497,10 @@ void SurfaceMeshing::generate(const DynamicArray<Vec3D>& sources, const SpaceFun
 		};
 
 		GridPos bestDir = dirs[0];
-		real maxU = fv(p0 + toWorldCoord(bestDir));
+		real maxU = value(p + bestDir);
 		for(GridPos dir : dirs)
 		{
-			real u = fv(p0 + toWorldCoord(dir));
+			real u = value(p + dir);
 			if(maxU < u)
 			{
 				maxU = u;
