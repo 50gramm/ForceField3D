@@ -51,6 +51,7 @@ struct DrawCommandGL : public DrawCommand
 
 	DynamicArray<int> indices;
 	int indexBegin = 0, indexEnd = 0;
+	mutable unsigned indexBufferId = 0;
 
 	ShaderVariableContainer vars;
 };

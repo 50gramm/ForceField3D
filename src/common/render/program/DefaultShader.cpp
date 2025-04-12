@@ -40,9 +40,25 @@ void DefaultShader::draw(const OpenGLState& globalState, const DrawCommand& base
 	if(cmd.indexBegin < cmd.indexEnd)
 	{
 		if(!cmd.indices.empty())
-			glDrawElements((int)cmd.primitive, cmd.indexEnd - cmd.indexBegin, GL_UNSIGNED_INT, &cmd.indices[cmd.indexBegin]);
+		{
+			if(!cmd.indexBufferId)
+			{
+				glGenBuffers(1, &cmd.indexBufferId);
+				ASSERT(cmd.indexBufferId);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cmd.indexBufferId);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, (cmd.indexEnd - cmd.indexBegin)*sizeof(cmd.indices[0]), &cmd.indices[cmd.indexBegin], GL_STATIC_DRAW);
+			}
+			else
+			{
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cmd.indexBufferId);
+			}
+			
+			glDrawElements((int)cmd.primitive, cmd.indexEnd - cmd.indexBegin, GL_UNSIGNED_INT, nullptr);
+		}
 		else
+		{
 			glDrawArrays((int)cmd.primitive, cmd.indexBegin, cmd.indexEnd);
+		}
 		CHECK_GL_ERROR();
 	}
 

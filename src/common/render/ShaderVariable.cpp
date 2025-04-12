@@ -166,13 +166,31 @@ void GLSLVariableTransmitter::setVertexAttribArray(int loc, const std::vector<Ve
 }
 
 
-void GLSLVariableTransmitter::setVertexAttribArray(int loc, int size, int type, const void* ptr)
+void GLSLVariableTransmitter::setVertexAttribArray(int loc, int size, int type, const void* /*ptr*/)
 {
-	glVertexAttribPointer(loc, size, type, GL_FALSE, 0, ptr);
+	glVertexAttribPointer(loc, size, type, GL_FALSE, 0, 0);
+	CHECK_GL_ERROR();
 	glEnableVertexAttribArray(loc);
 	CHECK_GL_ERROR();
 
 	enabledVertexAttribs.push_back(loc);
+}
+
+
+void GLSLVariableTransmitter::bindArrayBuffer(size_t size, const void* ptr, unsigned& bufferId)
+{
+	if(bufferId == 0)
+	{
+		glGenBuffers(1, &bufferId);
+		ASSERT(bufferId);
+		glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+		glBufferData(GL_ARRAY_BUFFER, size, ptr, GL_STATIC_DRAW);
+	}
+	else
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+	}
+	CHECK_GL_ERROR();
 }
 
 
@@ -194,15 +212,15 @@ void GLSLVariableTransmitter::setVariables(const ShaderVariableContainer& vars)
 		else if(var.varType == ShaderVariable::VariableType::GLSLAttribute)
 		{
 			if(var.valType == ShaderVariable::ValueType::VectorInt)
-				setVertexAttribArray(var.name, std::get<std::vector<int>>(var.value));
+				setVertexAttribArray(var.name, var.valBufferId, std::get<std::vector<int>>(var.value));
 			else if(var.valType == ShaderVariable::ValueType::VectorReal)
-				setVertexAttribArray(var.name, std::get<std::vector<real>>(var.value));
+				setVertexAttribArray(var.name, var.valBufferId, std::get<std::vector<real>>(var.value));
 			else if(var.valType == ShaderVariable::ValueType::VectorVec2)
-				setVertexAttribArray(var.name, std::get<std::vector<Vec2D>>(var.value));
+				setVertexAttribArray(var.name, var.valBufferId, std::get<std::vector<Vec2D>>(var.value));
 			else if(var.valType == ShaderVariable::ValueType::VectorVec3)
-				setVertexAttribArray(var.name, std::get<std::vector<Vec3D>>(var.value));
+				setVertexAttribArray(var.name, var.valBufferId, std::get<std::vector<Vec3D>>(var.value));
 			else if(var.valType == ShaderVariable::ValueType::VectorVec4)
-				setVertexAttribArray(var.name, std::get<std::vector<Vec4D>>(var.value));
+				setVertexAttribArray(var.name, var.valBufferId, std::get<std::vector<Vec4D>>(var.value));
 			else
 				assert(0);
 		}

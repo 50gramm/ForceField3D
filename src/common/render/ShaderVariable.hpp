@@ -42,6 +42,8 @@ struct ShaderVariable
 		std::vector<int>, std::vector<real>, std::vector<Vec2D>, std::vector<Vec3D>, std::vector<Vec4D>,
 		std::vector<ShaderVariable>
 	> value;
+
+	mutable unsigned valBufferId = 0;
 };
 
 
@@ -71,6 +73,8 @@ class GLSLVariableTransmitter
 
 	void setVertexAttribArray(int loc, int size, int type, const void* ptr);
 
+	void bindArrayBuffer(size_t size, const void* ptr, unsigned& bufferId);
+	
 public:
 	GLSLVariableTransmitter()
 	{}
@@ -82,12 +86,14 @@ public:
 
 
 	template<class T>
-	void setVertexAttribArray(const std::string& name, const std::vector<T>& arr)
+	void setVertexAttribArray(const std::string& name, unsigned& bufferId, const std::vector<T>& arr)
 	{
 		int loc = getAttribLocation(name);
 		if(loc < 0 || arr.empty())
 			return;
 
+		bindArrayBuffer(arr.size()*sizeof(T), &arr[0], bufferId);
+		
 		setVertexAttribArray(loc, arr);
 	}
 
