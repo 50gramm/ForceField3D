@@ -1,4 +1,5 @@
 #version 330 core
+precision highp float;
 
 struct Material
 {
@@ -12,7 +13,6 @@ uniform Material uMaterial;
 //uniform vec4 uColor;
 
 uniform mat4 uModelMatrix;
-varying vec3 vModelPos;
 varying vec2 vTexCoord;
 
 
@@ -20,8 +20,8 @@ void main()
 {
 	vec4 color = uMaterial.ambient;
 	color.xy = vTexCoord.xy;
-	float d = (pow(vTexCoord.x-0.5, 2) + pow(vTexCoord.y-0.5, 2)) * 2;
-	d = max(0, 1 - d);
-	color.xyz = vec3(0.5,0.5,0.5) * (1-d) + color.xyz * d;
+	float d = (pow(vTexCoord.x-0.5, 2.0) + pow(vTexCoord.y-0.5, 2.0)) * 2.0;
+	d = max(0.0, 1.0 - d);
+	color.xyz = vec3(0.5,0.5,0.5) * (1.0-d) + color.xyz * d;
 	gl_FragColor = color;
 }
