@@ -115,26 +115,26 @@ int main(int argc, char **argv)
 {
 	std::string fullPath = argv[0];
 	int pos = std::max((int)fullPath.find_last_of('/'), (int)fullPath.find_last_of('\\'));
-	std::string appDir;
-	if(0 <= pos)
-		appDir = fullPath.substr(0, pos);
+	std::string appDir = (0 < pos ? fullPath.substr(0, pos) : ".");
 	File::setFolder("{assets}", appDir + "/assets");
 	File::setFolder("{user}", appDir);
 
-	try {
-		app = IApplication::create(argc, argv);
-	} catch (const std::exception &e) {
-		LOG_E("Exception occurred: %s", e.what());
-	} catch (const std::string &msg) {
-		LOG_E("Exception occurred: %s", msg.c_str());
-	}
+	app = IApplication::create(argc, argv);
+
+	glutInit(&argc, argv);
 
 	Settings settings("{assets}/settings.json");
-	display_width = settings["Visual"]["WindowSize"][0];
-	display_height = settings["Visual"]["WindowSize"][1];
+	if(settings["Visual"]["Fullscreen"])
+	{
+		display_width = glutGet(GLUT_SCREEN_WIDTH);
+		display_height = glutGet(GLUT_SCREEN_HEIGHT);
+	}
+	else
+	{
+		display_width = settings["Visual"]["WindowSize"][0];
+		display_height = settings["Visual"]["WindowSize"][1];
+	}
 
-	// init GLUT and create Window
-	glutInit(&argc, argv);
 	unsigned displayMode = GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA;
 	if(settings["Visual"]["Multisampling"])
 		displayMode |= GLUT_MULTISAMPLE;
@@ -164,15 +164,8 @@ int main(int argc, char **argv)
 	
 	timer(0);
 
-	try {
-		// run main loop
-		glutMainLoop();
-	} catch(const std::string& str) {
-		LOG_E("Exception occurred: %s", str.c_str());
-	} catch(const char* str) {
-		LOG_E("Exception occurred: %s", str);
-	}
-	
+	glutMainLoop();
+
 	LOG_I("Finish");
 	return 0;
 }
