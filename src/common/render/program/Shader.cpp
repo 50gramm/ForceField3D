@@ -10,6 +10,14 @@
 static GLuint
 loadShader(GLenum type, const char *shaderSrc)
 {
+#ifdef GL_ES_VERSION_2_0
+	std::string shaderSrcStr = "#version 100\n";
+#else
+	std::string shaderSrcStr = "#version 120\n";
+#endif
+	shaderSrcStr += shaderSrc;
+	shaderSrc = shaderSrcStr.c_str();
+
 	GLuint shader;
 	GLint compiled;
 
@@ -28,13 +36,18 @@ loadShader(GLenum type, const char *shaderSrc)
 	// Check the compile status
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 
+	char infoLog[4096];
+	glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
+	if(infoLog[0])
+	{
+		LOG_E("GLSL>> Shader compile log:\n%s", infoLog);
+	}
+
 	if(!compiled)
 	{
-		char infoLog[4096];
-		glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
 		glDeleteShader(shader);
 
-		throw Exception("GLSL>> Error compiling shader:\n%s\n", infoLog);
+		throw Exception("GLSL>> Failed to compile shader");
 	}
 
 	return shader;
