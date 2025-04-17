@@ -1,5 +1,5 @@
 #include "OpenGLDefs.hpp"
-#include <GL/freeglut.h>
+#include <GL/glut.h>
 #include "Error.hpp"
 #include "File.hpp"
 #include "Settings.hpp"
@@ -138,16 +138,18 @@ int main(int argc, char **argv)
 	unsigned displayMode = GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA;
 	if(settings["Visual"]["Multisampling"])
 		displayMode |= GLUT_MULTISAMPLE;
-	if(0 < settings["Visual"]["SampleNum"])
-		glutSetOption(GLUT_MULTISAMPLE, settings["Visual"]["SampleNum"]);
+// 	if(0 < settings["Visual"]["SampleNum"])
+// 		glutSetOption(GLUT_MULTISAMPLE, settings["Visual"]["SampleNum"]);
 	glutInitDisplayMode(displayMode);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(display_width, display_height);
 	glutCreateWindow(MODULE_NAME);
+
+#ifndef EMSCRIPTEN
 	if(settings["Visual"]["Fullscreen"])
 		glutFullScreen();
-
 	gladLoadGL();
+#endif
 
 	app->onGlContextChanged();
 	app->onStart();
@@ -160,12 +162,12 @@ int main(int argc, char **argv)
 	glutKeyboardUpFunc(key_up);
 	glutDisplayFunc(draw);
 	//glutReshapeFunc(resized);
-	glutCloseFunc(shutdown);
 	
 	timer(0);
 
 	glutMainLoop();
 
+	shutdown();
 	LOG_I("Finish");
 	return 0;
 }

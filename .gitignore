@@ -55,7 +55,7 @@ android/app/src/main/assets/
 .cxx
 
 # Generated target
-bin/ForceField3D
+bin/ForceField3D*
 
 # User files
 bin/ffsave.json

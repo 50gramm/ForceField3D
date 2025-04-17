@@ -7,6 +7,10 @@ message("######################################################################"
 message("")
 project(${PROJECT_NAME})
 
+if(NOT PLATFORM)
+	set(PLATFORM "PC")
+endif()
+
 if(ANDROID)
 	set(MAKE_LIB TRUE)
 endif()
@@ -143,10 +147,12 @@ if(ANDROID)
 	set(LIBS GLESv2 GLESv3 log)
 endif()
 
-if(NOT MAKE_LIB) # exe
-	add_subdirectory(${SRC_DIR}/3rdparty/freeglut EXCLUDE_FROM_ALL)
-	set(LIBS ${LIBS} freeglut)
-	set_target_properties(freeglut PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+if (NOT ${PLATFORM} STREQUAL "Web")
+	if(NOT MAKE_LIB) # exe
+		add_subdirectory(${SRC_DIR}/3rdparty/freeglut EXCLUDE_FROM_ALL)
+		set(LIBS ${LIBS} freeglut)
+		set_target_properties(freeglut PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+	endif()
 endif()
 
 
@@ -179,7 +185,6 @@ set_target_properties(
 
 ### set include directories
 target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR}/3rdparty)
-target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR}/3rdparty/freeglut/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR}/3rdparty/glad/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_SRC_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${RENDER_SRC_DIR})
@@ -189,6 +194,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_SRC_DIR}/application
 target_include_directories(${PROJECT_NAME} PRIVATE ${COMMON_SRC_DIR}/input_devices)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR}/scene)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR})
+
+if(NOT ${PLATFORM} STREQUAL "Web")
+	target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_DIR}/3rdparty/freeglut/include)
+endif()
 
 
 ### set compiler flags
@@ -201,6 +210,12 @@ if(DOUBLE)
 endif()
 if(TRACE)
 	add_compile_definitions(_TRACE)
+endif()
+
+if(${PLATFORM} STREQUAL "Web")
+	set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -lGL -s MAX_WEBGL_VERSION=1 -s GL_ASSERTIONS=1 -s ASSERTIONS=1 -s EXIT_RUNTIME=1 -s INITIAL_MEMORY=67108864")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --preload-file ${PROJECT_SOURCE_DIR}/bin/assets@assets")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
