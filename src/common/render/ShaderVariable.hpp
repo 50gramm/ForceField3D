@@ -44,6 +44,16 @@ struct ShaderVariable
 	> value;
 
 	mutable unsigned valBufferId = 0;
+
+	template<class T>
+	ShaderVariable(const std::string& name, const T& val);
+
+	ShaderVariable(ShaderVariable& other) = delete;
+	ShaderVariable& operator=(ShaderVariable& other) = delete;
+	ShaderVariable(ShaderVariable&& other) = default;
+	ShaderVariable& operator=(ShaderVariable&& other) = delete;
+
+	~ShaderVariable();
 };
 
 
@@ -53,7 +63,10 @@ public:
 	std::vector<ShaderVariable> all;
 
 	template<class T>
-	void addVariable(const std::string& name, const T& val);
+	void addVariable(const std::string& name, const T& val)
+	{
+		all.emplace_back(name, val);
+	}
 };
 
 

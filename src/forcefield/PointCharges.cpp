@@ -12,25 +12,24 @@ PointCharges::PointCharges(const ForceFieldState& state, const VisualSettings& v
 	chargesMat[0][ChargeOverlay::OverlaySelected] = visSettings.getMaterial("SelectedNegativeCharge");
 	chargesMat[1][ChargeOverlay::OverlayPicked] = visSettings.getMaterial("PickedPositiveCharge");
 	chargesMat[0][ChargeOverlay::OverlayPicked] = visSettings.getMaterial("PickedNegativeCharge");
+	for(int i=0; i<2; ++i)
+	{
+		for(int j=0; j<ChargeOverlay::OverlayEnd; ++j)
+		{
+			cmds[i][j] = chargeMesh.genDrawCmd();
+			cmds[i][j].vars.addVariable("uMaterial", *chargesMat[i][j]);
+		}
+	}
 }
 
 
 void PointCharges::draw(DrawingQueue& drawing)
 {
-	DrawCommandGL defCmd = chargeMesh.genDrawCmd();
-
-	cmds.clear();
-	cmds.reserve(state.getCharges().size());
 	for(const PointCharge& charge : state.getCharges())
 	{
-		cmds.emplace_back(defCmd);
-		DrawCommandGL& cmd = cmds.back();
-
-		cmd.vars.addVariable("uMaterial", *chargesMat[charge.charge < 0. ? 0 : 1][overlays[charge.getId()]]);
-
 		Matrix4 pos({}, charge.r, getRadius(charge.charge));
 		drawing.pushMatrix(pos);
-		drawing.add(&cmd);
+		drawing.add(&cmds[charge.charge < 0. ? 0 : 1][overlays[charge.getId()]]);
 		drawing.popMatrix();
 	}
 }

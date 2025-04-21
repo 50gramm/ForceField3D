@@ -56,6 +56,12 @@ void OpenGLContext::makeAndBindTexture(Texture& texture)
 }
 
 
+void OpenGLContext::deleteBuffer(unsigned bufferId)
+{
+	glDeleteBuffers(1, &bufferId);
+}
+
+
 void OpenGLContext::contextChanged()
 {
 	if(contextId++ != -1)

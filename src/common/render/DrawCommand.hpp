@@ -37,7 +37,7 @@ enum class GLFlags
 
 struct DrawCommand
 {
-	virtual ~DrawCommand() {}
+	virtual ~DrawCommand();
 
 	std::string shaderName;
 	DrawCommandPriority priority = DrawCommandPriority::Default;
@@ -54,6 +54,14 @@ struct DrawCommandGL : public DrawCommand
 	mutable unsigned indexBufferId = 0;
 
 	ShaderVariableContainer vars;
+
+	DrawCommandGL() {}
+	DrawCommandGL(DrawCommandGL& other) = delete;
+	DrawCommandGL& operator=(DrawCommandGL& other) = delete;
+	DrawCommandGL(DrawCommandGL&& other) = default;
+	DrawCommandGL& operator=(DrawCommandGL&& other);
+	
+	~DrawCommandGL();
 };
 
 

@@ -20,10 +20,13 @@ public:
 
 private:
 	const ForceFieldState& state;
+
+	ForceFieldState::UniqueId generatedStateId = 0;
+
 	const Material* chargesMat[2][OverlayEnd] = {};
+	DrawCommandGL cmds[2][OverlayEnd];
 
 	Mesh chargeMesh;
-	DynamicArray<DrawCommandGL> cmds;
 
 	std::map<PointCharge::UniqueId, ChargeOverlay> overlays;
 

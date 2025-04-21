@@ -4,40 +4,68 @@
 #include "ShaderVariable.hpp"
 
 
-template<>
-void ShaderVariableContainer::addVariable<int>(const std::string& name, const int& val)
+ShaderVariable::~ShaderVariable()
 {
-	all.push_back({ShaderVariable::VariableType::GLSLUniform, ShaderVariable::ValueType::Int, name, val});
+	if(valBufferId != 0)
+		OpenGLContext::deleteBuffer(valBufferId);
+}
+
+
+template<>
+ShaderVariable::ShaderVariable(const std::string& name, const int& val)
+	: varType(VariableType::GLSLUniform)
+	, valType(ValueType::Int)
+	, name(name)
+	, value(val)
+{
 }
 
 template<>
-void ShaderVariableContainer::addVariable<std::vector<real>>(const std::string& name, std::vector<real> const &val)
+ShaderVariable::ShaderVariable(const std::string& name, std::vector<real> const& val)
+	: varType(VariableType::GLSLAttribute)
+	, valType(ValueType::VectorReal)
+	, name(name)
+	, value(val)
 {
-	all.push_back({ShaderVariable::VariableType::GLSLAttribute, ShaderVariable::ValueType::VectorReal, name, val});
+}
+
+
+template<>
+ShaderVariable::ShaderVariable(const std::string& name, std::vector<Vec2D> const& val)
+	: varType(VariableType::GLSLAttribute)
+	, valType(ValueType::VectorVec2)
+	, name(name)
+	, value(val)
+{
 }
 
 template<>
-void ShaderVariableContainer::addVariable<std::vector<Vec2D>>(const std::string& name, std::vector<Vec2D> const &val)
+ShaderVariable::ShaderVariable(const std::string& name, std::vector<Vec3D> const& val)
+	: varType(VariableType::GLSLAttribute)
+	, valType(ValueType::VectorVec3)
+	, name(name)
+	, value(val)
 {
-	all.push_back({ShaderVariable::VariableType::GLSLAttribute, ShaderVariable::ValueType::VectorVec2, name, val});
 }
 
-template<>
-void ShaderVariableContainer::addVariable<std::vector<Vec3D>>(const std::string& name, std::vector<Vec3D> const &val)
-{
-	all.push_back({ShaderVariable::VariableType::GLSLAttribute, ShaderVariable::ValueType::VectorVec3, name, val});
-}
 
 template<>
-void ShaderVariableContainer::addVariable<std::vector<Vec4D>>(const std::string& name, std::vector<Vec4D> const &val)
+ShaderVariable::ShaderVariable(const std::string& name, std::vector<Vec4D> const& val)
+	: varType(VariableType::GLSLAttribute)
+	, valType(ValueType::VectorVec4)
+	, name(name)
+	, value(val)
 {
-	all.push_back({ShaderVariable::VariableType::GLSLAttribute, ShaderVariable::ValueType::VectorVec4, name, val});
 }
 
+
 template<>
-void ShaderVariableContainer::addVariable<Material>(const std::string& name, const Material& val)
+ShaderVariable::ShaderVariable(const std::string& name, Material const& val)
+	: varType(VariableType::GLSLUniform)
+	, valType(ValueType::Material)
+	, name(name)
+	, value(val)
 {
-	all.push_back({ShaderVariable::VariableType::GLSLUniform, ShaderVariable::ValueType::Material, name, val});
 }
 
 

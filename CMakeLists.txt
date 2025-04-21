@@ -85,6 +85,7 @@ set(COMMON_SOURCES
 	${COMMON_SRC_DIR}/input_devices/Cursor3DObserver.hpp
 
 	${RENDER_SRC_DIR}/DrawCommand.hpp
+	${RENDER_SRC_DIR}/DrawCommand.cpp
 	${RENDER_SRC_DIR}/OpenGLDefs.hpp
 	${RENDER_SRC_DIR}/OpenGLContext.hpp
 	${RENDER_SRC_DIR}/OpenGLContext.cpp

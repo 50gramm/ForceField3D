@@ -13,6 +13,8 @@ public:
 
 	static void makeAndBindTexture(Texture& texture);
 
+	static void deleteBuffer(unsigned bufferId);
+
 	static int getContextId() { return contextId; }
 	
 	void contextChanged();
