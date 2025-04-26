@@ -27,7 +27,8 @@ public:
 		Vec v21 = v2 % v1;
 		sinus = v21.len();
 		cosinus = v1*v2;
-		dir = v21.norm();
+		if(sinus != 0)
+			dir = v21.norm();
 	}
 };
 
