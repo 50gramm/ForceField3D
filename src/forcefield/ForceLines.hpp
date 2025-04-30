@@ -3,7 +3,6 @@
 #include "Object.hpp"
 #include "Mesh.hpp"
 #include "KeyObserver.hpp"
-#include "MaterialContainer.hpp"
 #include "ForceFieldState.hpp"
 #include "VisualSettings.hpp"
 
@@ -26,17 +25,13 @@ class ForceLines : public IVisual, public KeyObserver
 	const ForceFieldState& state;
 	const VisualSettings& visSettings;
 
-	DynamicArray<ForceLine> lines;
-
-	Mesh linesMesh;
-	DynamicArray<real> tangential;
 	DynamicArray<real> tangentialNormalized;
 	DrawCommandGL drawCmd;
 	ForceFieldState::UniqueId generatedStateId = 0;
 
 	bool show = true;
 
-	void generateLineMesh(const ForceLine& line);
+	void generateLineMesh(const ForceLine& line, Mesh& linesMesh);
 
 	ForceLine generateLine(const PointCharge& source, const Vec3D dir, bool positiveDir) const;
 

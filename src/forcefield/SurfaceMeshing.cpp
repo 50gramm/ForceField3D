@@ -370,6 +370,7 @@ void SurfaceMeshing::traverse(const Cube& cube)
 {
 	TRACE_FUNCTION
 
+	Visited& visited = *visitedPtr;
 	std::stack<size_t> st;
 	st.push(cubes.size());
 	cubes.add(cube);
@@ -450,12 +451,6 @@ void SurfaceMeshing::generateMesh(const Cube& cube)
 }
 
 
-void SurfaceMeshing::setMaterial(const Material* mater)
-{
-	this->material = mater;
-}
-
-
 void SurfaceMeshing::generateMesh()
 {
 	TRACE_FUNCTION
@@ -463,22 +458,17 @@ void SurfaceMeshing::generateMesh()
 	for(const Cube& cube : cubes)
 		generateMesh(cube);
 
-	drawCmd = mesh.genDrawCmd(material);
 	//drawCmd.flags |= DrawCommandGL::DisableCullFace;
 
 	//dprint(glVert.size(), cubes.size());
 }
 
 
-void SurfaceMeshing::generate(const DynamicArray<Vec3D>& sources, const SpaceFunc& fv, real cubeSize)
+SurfaceMeshing::SurfaceMeshing(const DynamicArray<Vec3D>& sources, const SpaceFunc& fv, real cubeSize)
+	: fx(&fv)
+	, size(cubeSize)
 {
 	TRACE_FUNCTION
-
-	fx = &fv;
-	cubes.clear();
-	mesh = Mesh();
-	visited.reset();
-	size = cubeSize;
 
 	for(const Vec3D& p0 : sources)
 	{
@@ -523,10 +513,4 @@ void SurfaceMeshing::generate(const DynamicArray<Vec3D>& sources, const SpaceFun
 	}
 
 	generateMesh();
-}
-
-
-void SurfaceMeshing::draw(DrawingQueue& drawingQueue)
-{
-	drawingQueue.add(&drawCmd);
 }

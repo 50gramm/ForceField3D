@@ -1,9 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <bitset>
 #include "Vec.hpp"
-#include "DrawCommand.hpp"
-#include "DrawingQueue.hpp"
 #include "Mesh.hpp"
 
 
@@ -20,6 +19,7 @@ public:
 class SurfaceMeshing
 {
 	typedef VecT<int,3> GridPos;
+	typedef std::bitset<256*256*256> Visited;
 
 	struct Cube
 	{
@@ -36,12 +36,9 @@ class SurfaceMeshing
 
 	DynamicArray<Cube> cubes;
 
-	std::bitset<256*256*256> visited;
+	std::unique_ptr<Visited> visitedPtr = std::make_unique<Visited>();
 
-	DrawCommandGL drawCmd;
 	Mesh mesh;
-
-	const Material* material = nullptr;
 
 	int gridPosToId(const SurfaceMeshing::GridPos& p);
 
@@ -64,9 +61,7 @@ class SurfaceMeshing
 	void generateMesh();
 
 public:
-	void setMaterial(const Material* material);
+	SurfaceMeshing(const DynamicArray<Vec3D>& sources, const SpaceFunc& fv, real cubeSize);
 
-	void generate(const DynamicArray<Vec3D>& sources, const SpaceFunc& fv, real cubeSize);
-
-	void draw(DrawingQueue& drawingQueue);
+	const Mesh& getMesh() const { return mesh; }
 };

@@ -1,4 +1,6 @@
-#include "ForceFieldOp.hpp"
+#include "DrawingQueue.hpp"
+#include "SurfaceMeshing.hpp"
+#include "EquiPotFace.hpp"
 
 
 struct PotFunc : public SpaceFunc
@@ -28,7 +30,6 @@ EquiPotFace::EquiPotFace(const ForceFieldState& state, const VisualSettings& vis
 	: state(state)
 	, visSettings(visSettings)
 {
-	surfaceMeshing.setMaterial(visSettings.getMaterial("EquiPotFace"));
 }
 
 
@@ -43,7 +44,8 @@ void EquiPotFace::regenerate()
 			sources.add(charge.r);
 	}
 
-	surfaceMeshing.generate(sources, potFunc, visSettings["EquiPotFace"]["VoxelSize"].get<real>());
+	SurfaceMeshing meshing(sources, potFunc, visSettings["EquiPotFace"]["VoxelSize"].get<real>());
+	drawCmd = meshing.getMesh().genDrawCmd(visSettings.getMaterial("EquiPotFace"));
 
 	generatedStateId = state.getId();
 }
@@ -59,7 +61,7 @@ void EquiPotFace::draw(DrawingQueue& drawing)
 		regenerate();
 	}
 
-	surfaceMeshing.draw(drawing);
+	drawing.add(&drawCmd);
 }
 
 

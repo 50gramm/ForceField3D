@@ -1,10 +1,8 @@
 #pragma once
-#include <memory>
-#include "Array.hpp"
 #include "Object.hpp"
 #include "KeyObserver.hpp"
+#include "DrawCommand.hpp"
 #include "ForceFieldState.hpp"
-#include "SurfaceMeshing.hpp"
 #include "VisualSettings.hpp"
 
 
@@ -12,7 +10,7 @@ class EquiPotFace : public IVisual, public KeyObserver
 {
 	const ForceFieldState& state;
 	const VisualSettings& visSettings;
-	SurfaceMeshing surfaceMeshing;
+	DrawCommandGL drawCmd;
 	ForceFieldState::UniqueId generatedStateId = 0;
 
 	bool show = true;

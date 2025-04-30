@@ -2,8 +2,8 @@
 #include "MathUtils.hpp"
 #include "ShaderManager.hpp"
 #include "DefaultShader.hpp"
-#include "ForceFieldState.hpp"
-#include "ForceFieldOp.hpp"
+#include "DrawingQueue.hpp"
+#include "PointCharges.hpp"
 #include "ForceLines.hpp"
 
 
@@ -60,7 +60,7 @@ ForceLines::ForceLines(const ForceFieldState& state, const VisualSettings& visSe
 }
 
 
-void ForceLines::generateLineMesh(const ForceLine& line)
+void ForceLines::generateLineMesh(const ForceLine& line, Mesh& linesMesh)
 {
 	TRACE_FUNCTION
 
@@ -104,7 +104,6 @@ void ForceLines::generateLineMesh(const ForceLine& line)
 		{
 			linesMesh.verts.push_back(mat * p);
 			linesMesh.norms.push_back((mat * p - mat.getTranslation()).norm());
-			tangential.push_back(length);
 			tangentialNormalized.push_back(line.startChargeValue < 0 ? length*tangentFactor : 1.0 - length*tangentFactor);
 		}
 		segNum += 1;
@@ -180,10 +179,8 @@ void ForceLines::regenerate()
 {
 	int linesPerCharge = visSettings["ForceLines"]["LinesPerCharge"];
 
-	lines.clear();
-	tangential.clear();
 	tangentialNormalized.clear();
-	linesMesh = Mesh();
+	Mesh linesMesh;
 
 	real sumCharge = 0;
 	for(const PointCharge& charge : state.getCharges())
@@ -196,8 +193,7 @@ void ForceLines::regenerate()
 		DynamicArray<Vec3D> starts = genPointsOnSphere(n, 888);
 		for(const Vec3D& p : starts)
 		{
-			lines.push_back(generateLine(charge, p, positive));
-			generateLineMesh(lines.back());
+			generateLineMesh(generateLine(charge, p, positive), linesMesh);
 		}
 	}
 

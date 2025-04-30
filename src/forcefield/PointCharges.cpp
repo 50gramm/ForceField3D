@@ -1,11 +1,13 @@
-#include "ForceFieldOp.hpp"
+#include "Mesh.hpp"
+#include "DrawingQueue.hpp"
 #include "MeshGeneration.hpp"
+#include "PointCharges.hpp"
 
 
 PointCharges::PointCharges(const ForceFieldState& state, const VisualSettings& visSettings)
 	: state(state)
 {
-	chargeMesh = GenSphere(1., 24, 48);
+	Mesh chargeMesh = GenSphere(1., 24, 48);
 	chargesMat[1][ChargeOverlay::OverlayNormal] = visSettings.getMaterial("PositiveCharge");
 	chargesMat[0][ChargeOverlay::OverlayNormal] = visSettings.getMaterial("NegativeCharge");
 	chargesMat[1][ChargeOverlay::OverlaySelected] = visSettings.getMaterial("SelectedPositiveCharge");

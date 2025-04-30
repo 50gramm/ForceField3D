@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Object.hpp"
-#include "Mesh.hpp"
-#include "MaterialContainer.hpp"
+#include "DrawCommand.hpp"
+#include "Material.hpp"
 #include "ForceFieldState.hpp"
 #include "VisualSettings.hpp"
 
@@ -21,12 +21,8 @@ public:
 private:
 	const ForceFieldState& state;
 
-	ForceFieldState::UniqueId generatedStateId = 0;
-
 	const Material* chargesMat[2][OverlayEnd] = {};
 	DrawCommandGL cmds[2][OverlayEnd];
-
-	Mesh chargeMesh;
 
 	std::map<PointCharge::UniqueId, ChargeOverlay> overlays;
 
