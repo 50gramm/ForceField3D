@@ -19,7 +19,8 @@ public:
 class SurfaceMeshing
 {
 	typedef VecT<int,3> GridPos;
-	typedef std::bitset<256*256*256> Visited;
+	static constexpr int SpaceRes = 256;
+	typedef std::bitset<SpaceRes*SpaceRes*SpaceRes> Visited;
 
 	struct Cube
 	{
@@ -40,9 +41,11 @@ class SurfaceMeshing
 
 	Mesh mesh;
 
-	int gridPosToId(const SurfaceMeshing::GridPos& p);
+	bool isValidCell(const GridPos& p);
 
-	GridPos getGridPosOfVert(const SurfaceMeshing::GridPos& p0, int vertIdx);
+	int gridPosToId(const GridPos& p);
+
+	GridPos getGridPosOfVert(const GridPos& p0, int vertIdx);
 
 	GridPos toGridCoord(const Vec3D& r) const;
 	

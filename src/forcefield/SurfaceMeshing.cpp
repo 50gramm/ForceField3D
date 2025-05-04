@@ -305,9 +305,20 @@ static void convertTriTables()
 	}
 }
 
+bool SurfaceMeshing::isValidCell(const SurfaceMeshing::GridPos& p)
+{
+	static_assert(SpaceRes%2 == 0);
+
+	return
+		(0 <= p.x + SpaceRes/2 && p.x < SpaceRes/2) &&
+		(0 <= p.y + SpaceRes/2 && p.y < SpaceRes/2) &&
+		(0 <= p.z + SpaceRes/2 && p.z < SpaceRes/2);
+}
+
 int SurfaceMeshing::gridPosToId(const SurfaceMeshing::GridPos& p)
 {
-	return (p.z + 128) * 256 * 256 + (p.y + 128) * 256 + (p.x + 128);
+	ASSERT(isValidCell(p));
+	return (p.z + SpaceRes/2) * SpaceRes * SpaceRes + (p.y + SpaceRes/2) * SpaceRes + (p.x + SpaceRes/2);
 }
 
 
@@ -390,13 +401,13 @@ void SurfaceMeshing::traverse(const Cube& cube)
 			if((c1.mask & mask) != 0 && (c1.mask & mask) != mask)
 			{
 				GridPos p1 = c1.p0 - dirs[i];
+				if(!isValidCell(p1))
+					continue;
+				
 				auto id = gridPosToId(p1);
-
 				if(!visited[id])
 				{
 					visited[id] = true;
-					if(99 < std::max(std::abs(p1.x), std::max(std::abs(p1.y), std::abs(p1.z))))
-						continue;
 					Cube c2 = genCube(p1);
 					ASSERT(c2.mask != 0 && c2.mask != 255);
 					st.push(cubes.size());
@@ -497,8 +508,8 @@ SurfaceMeshing::SurfaceMeshing(const DynamicArray<Vec3D>& sources, const SpaceFu
 				bestDir = dir;
 			}
 		}
-		
-		for(int step=0; step<999 && value(p) < 0; ++step)
+
+		for(int step=0; isValidCell(p) && value(p) < 0; ++step)
 		{
 			p += bestDir;
 		}
@@ -506,6 +517,8 @@ SurfaceMeshing::SurfaceMeshing(const DynamicArray<Vec3D>& sources, const SpaceFu
 			continue;
 		if(0 < bestDir * GridPos(1,1,1))
 			p -= bestDir;
+		if(!isValidCell(p))
+			continue;
 
 		Cube cube = genCube(p);
 		ASSERT(cube.mask != 0 && cube.mask != 255);
