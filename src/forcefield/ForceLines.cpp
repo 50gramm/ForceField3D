@@ -143,10 +143,15 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 		bool finished = false;
 		Vec3D E(0,0,0);
 		Vec3D dE(0,0,0);
+		real minDistToTarget = 99E9; // inf
 		for(const PointCharge& charge : state.getCharges())
 		{
 			Vec3D dr = (pos - charge.r);
 			real dist = dr.len();
+			if(charge.isNegative() == positiveDir)
+			{
+				minDistToTarget = std::min(minDistToTarget, dist);
+			}
 			if(charge.isNegative() == positiveDir && dist < PointCharges::getRadius(charge.charge))
 			{
 				line.finishChargeValue = charge.charge;
@@ -165,7 +170,7 @@ ForceLines::ForceLine ForceLines::generateLine(const PointCharge& source, const 
 		do {
 			nextPos = pos + eDir * step;
 			step /= 2.0;
-		} while(lineAccuracy < (state.getE(nextPos).norm() % eDir).len() * step);
+		} while(2*step > minDistToTarget || lineAccuracy < (state.getE(nextPos).norm() % eDir).len() * step);
 		step *= 4.0;
 
 		pos = nextPos;
