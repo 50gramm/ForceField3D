@@ -37,15 +37,15 @@ TraceStatistics::Tracer::~Tracer()
 void TraceStatistics::print(std::ostream& out)
 {
 	out << "=============================== Trace Statistics ===============================\n";
-	out << "|              Name              | Total time(ns) | Avg time(ns) |    Count    |\n";
+	out << "|              Name              | Total time(μs) | Avg time(μs) |    Count    |\n";
 	for(const auto& stat : statistics)
 	{
 		if(stat.second.count == 0)
 			continue;
 		
 		out << "|" << stat.first << std::setw(22 - stat.first.size()) << " "
-			<< std::setw(27) << formatCompact(stat.second.totalTime) << " "
-			<< std::setw(14) << formatCompact(stat.second.totalTime/stat.second.count) << " "
+			<< std::setw(27) << formatCompact(stat.second.totalTime/1000) << " "
+			<< std::setw(14) << formatCompact(stat.second.totalTime/1000/stat.second.count) << " "
 			<< std::setw(13) << stat.second.count << "|\n";
 	}
 	out << "--------------------------------------------------------------------------------" << std::endl;
